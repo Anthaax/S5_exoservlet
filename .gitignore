@@ -22,6 +22,9 @@ Thumbs.db
 *.metadata
 *.settings
 *RemoteSystemsTempFiles
+*.classpath
+*.project
+*target
 [Bb]in
 [Dd]ebug*/
 *.lib
