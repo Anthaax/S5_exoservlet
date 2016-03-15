@@ -21,6 +21,7 @@ Thumbs.db
 *.log
 *.metadata
 *.recommenders
+*.settings
 *RemoteSystemsTempFiles
 *Servers
 [Bb]in
