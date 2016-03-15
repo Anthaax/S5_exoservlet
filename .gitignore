@@ -19,6 +19,9 @@ Thumbs.db
 *.cache
 *.ilk
 *.log
+*.metadata
+*.settings
+*RemoteSystemsTempFiles
 [Bb]in
 [Dd]ebug*/
 *.lib
