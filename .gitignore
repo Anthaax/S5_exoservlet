@@ -24,6 +24,7 @@ Thumbs.db
 *RemoteSystemsTempFiles
 .classpath
 .project
+.tern-project
 /target
 [Bb]in
 [Dd]ebug*/
