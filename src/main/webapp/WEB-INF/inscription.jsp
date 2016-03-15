@@ -27,7 +27,7 @@
 				<div class="form-group">
 					<label class="col-md-2 col-md-offset-2 control-label" for="dateNaiss">Date Naiss.* :</label>
 					<div class="col-md-5">
-						<input type="text" class="form-control" id="dateNaiss" name="dateNaiss" value="12/02/1995" required>
+						<input type="date" class="form-control" id="dateNaiss" name="dateNaiss" required>
 					</div>
 				</div>
 				<div class="form-group">
