@@ -1,3 +1,7 @@
-C:\Users\Joris\workspace\workspaceWEB\application\src\main\java\fr\intech\project\application\controllers\AccueilController.java
-C:\Users\Joris\workspace\workspaceWEB\application\src\main\java\fr\intech\project\application\entity\User.java
-C:\Users\Joris\workspace\workspaceWEB\application\src\main\java\fr\intech\project\application\models\Model.java
+C:\Users\Joris\workspace\workspaceWEB\application\src\main\java\fr\intech\s5\appusers\models\Model.java
+C:\Users\Joris\workspace\workspaceWEB\application\src\main\java\fr\intech\s5\appusers\controllers\ResultInscriptionServlet.java
+C:\Users\Joris\workspace\workspaceWEB\application\src\main\java\fr\intech\s5\appusers\controllers\LoginServlet.java
+C:\Users\Joris\workspace\workspaceWEB\application\src\main\java\fr\intech\s5\appusers\services\Connexion.java
+C:\Users\Joris\workspace\workspaceWEB\application\src\main\java\fr\intech\s5\appusers\controllers\AuthServlet.java
+C:\Users\Joris\workspace\workspaceWEB\application\src\main\java\fr\intech\s5\appusers\beans\User.java
+C:\Users\Joris\workspace\workspaceWEB\application\src\main\java\fr\intech\s5\appusers\controllers\InscriptionServlet.java

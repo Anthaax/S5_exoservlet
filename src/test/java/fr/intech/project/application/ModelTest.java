@@ -16,7 +16,7 @@ public class ModelTest {
 	
 	@BeforeClass
 	public static void init() {
-		Model.Connect();
+		//Model.Connect();
 		int id = 0;
 		String nom = "NSENGUET TOSSAM";
 		String prenom = "Joris";

@@ -1,0 +1,7 @@
+fr\intech\s5\appusers\models\Model.class
+fr\intech\s5\appusers\beans\User.class
+fr\intech\s5\appusers\controllers\LoginServlet.class
+fr\intech\s5\appusers\services\Connexion.class
+fr\intech\s5\appusers\controllers\AuthServlet.class
+fr\intech\s5\appusers\controllers\InscriptionServlet.class
+fr\intech\s5\appusers\controllers\ResultInscriptionServlet.class

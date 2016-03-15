@@ -15,19 +15,19 @@ import fr.intech.s5.appusers.services.Connexion;
 
 public class Model {
 
-	private static Connexion connexion;
+	//private static Connexion connexion;
 	public Model()
 	{
 		
 	}
-	public static void Connect()
+	/*public static void Connect()
 	{
 		connexion = new Connexion();
-	}
+	}*/
 	
 	public static boolean isUser(String pseudo, String mdp)
 	{
-		
+		Connexion connexion = new Connexion();
 		try {
 			Statement st = connexion.getConnexion().createStatement();
 			ResultSet resultat = st.executeQuery("SELECT * FROM users");
@@ -56,7 +56,7 @@ public class Model {
 	public static boolean addUser(User user)
 	{
 		String sql = "INSERT INTO users(nom, prenom, email, login, password, datenaissance, id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-		//Connexion connexion = new Connexion();
+		Connexion connexion = new Connexion();
 		try {
 			PreparedStatement st = connexion.getConnexion().prepareStatement(sql);
 			st.setString(1, user.getNom());
@@ -72,6 +72,14 @@ public class Model {
 			e.printStackTrace();
 			return false;
 		}
+		finally {
+			try {
+				connexion.getConnexion().close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		return true;
 		
@@ -79,7 +87,7 @@ public class Model {
 	
 	public static User getUser(String pseudo, String mdp)
 	{
-		//Connexion connexion = new Connexion();
+		Connexion connexion = new Connexion();
 		User user = null;
 		try {
 			Statement st = connexion.getConnexion().createStatement();
@@ -103,6 +111,14 @@ public class Model {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		finally {
+			try {
+				connexion.getConnexion().close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		return user;
 	}
@@ -110,7 +126,7 @@ public class Model {
 	public static boolean deleteTable()
 	{
 		
-		//Connexion connexion = new Connexion();
+		Connexion connexion = new Connexion();
 		try {
 			Statement st = connexion.getConnexion().createStatement();
 			st.executeUpdate("TRUNCATE TABLE users");
@@ -118,7 +134,14 @@ public class Model {
 			e.printStackTrace();
 			return false;
 		}
-		
+		finally {
+			try {
+				connexion.getConnexion().close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		return true;
 	}
