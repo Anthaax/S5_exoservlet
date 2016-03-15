@@ -19,20 +19,19 @@ import fr.intech.s5.appusers.models.Model;
 @WebServlet(name="InscriptionServlet", urlPatterns = "/inscription")
 public class InscriptionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Model model = new Model();
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public InscriptionServlet() {
-        super();
-        // TODO Auto-generated constructor stub
+        
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		request.getRequestDispatcher("/WEB-INF/inscription.jsp").forward(request, response);
 	}
 
@@ -61,7 +60,7 @@ public class InscriptionServlet extends HttpServlet {
 		
 		String message;
 		
-		if(Model.addUser(user))
+		if(model.addUser(user))
 		{
 			message = "Vous avez été bien inscrit.";
 		}

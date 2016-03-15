@@ -17,6 +17,7 @@ import fr.intech.s5.appusers.models.Model;
 @WebServlet(name="LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Model model = new Model();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -43,9 +44,9 @@ public class LoginServlet extends HttpServlet {
 		String password = (String)request.getParameter("password");
 		
 		
-		if(Model.isUser(pseudo, password))
+		if(model.isUser(pseudo, password))
 		{
-			User user = Model.getUser(pseudo, password);
+			User user = model.getUser(pseudo, password);
 			request.setAttribute("user", user);
 			request.getRequestDispatcher("/WEB-INF/auth.jsp").forward(request, response);
 		}

@@ -1,6 +1,8 @@
 package fr.intech.s5.appusers.models;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,13 +16,29 @@ import fr.intech.s5.appusers.services.Connexion;
 
 public class Model {
 
+	private Connection con;
 	
-	public Model()
-	{
-		
+	public Model() {
+
 	}
 	
-	public static boolean isUser(String pseudo, String mdp)
+	public Model(Connection pCon) {
+		con = pCon;
+	}
+	
+	/**
+	 * @param pCon
+	 * @throws ClassNotFoundException 
+	 * @throws SQLException 
+	 */
+	public Model(String pForname, String pDriverName, String pUserDataBase, String pPasswordDataBase) throws ClassNotFoundException, SQLException {
+		Class.forName(pForname);
+	    con = (Connection) DriverManager.getConnection(pDriverName,pUserDataBase, pPasswordDataBase);
+		//Class.forName("org.h2.Driver");
+	    //con = DriverManager.getConnection("jdbc:h2:mem:mytestdb","sa", "");
+	}
+	
+	public boolean isUser(String pseudo, String mdp)
 	{
 		Connexion connexion = new Connexion();
 		try {
@@ -40,18 +58,19 @@ public class Model {
 		return false;
 	}
 	
-	public static boolean addUser(User user)
+	public boolean addUser(User user)
 	{
-		String sql = "INSERT INTO user(nom, prenom, email, login, password, datenaissance) VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO user(id,nom, prenom, email, login, password, datenaissance) VALUES (?,?, ?, ?, ?, ?, ?)";
 		Connexion connexion = new Connexion();
 		try {
 			PreparedStatement st = connexion.getConnexion().prepareStatement(sql);
-			st.setString(1, user.getNom());
-			st.setString(2, user.getPrenom());
-			st.setString(3, user.getEmail());
-			st.setString(4, user.getLogin());
-			st.setString(5, user.getPassword());
-			st.setDate(6, Date.valueOf(user.getDateNaiss()));
+			st.setInt(1, user.getId());
+			st.setString(2, user.getNom());
+			st.setString(3, user.getPrenom());
+			st.setString(4, user.getEmail());
+			st.setString(5, user.getLogin());
+			st.setString(6, user.getPassword());
+			st.setDate(7, Date.valueOf(user.getDateNaiss()));
 			
 			st.executeUpdate();
 		} catch (SQLException e) {
@@ -63,14 +82,14 @@ public class Model {
 		
 	}
 	
-	public static User getUser(String pseudo, String mdp)
+	public User getUser(String pseudo, String mdp)
 	{
-		Connexion connexion = new Connexion();
 		User user = new User();
 		try {
-			Statement st = connexion.getConnexion().createStatement();
-			ResultSet rs= st.executeQuery("SELECT * FROM user WHERE login = '"+pseudo+"' AND password = '"+mdp+"'");
-
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM user WHERE login = ? AND password = ?");
+			ps.setString(1, pseudo);
+			ps.setString(2, mdp);
+			ResultSet rs = ps.executeQuery();
 			while(rs.next())
 			{
 				user.setId(rs.getInt(1));
@@ -82,7 +101,6 @@ public class Model {
 				final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 				final LocalDate localDate = LocalDate.parse(rs.getDate(7).toString(), dtf);
 				user.setDateNaiss(localDate);
-				
 			}
 			
 		} catch (SQLException e) {
@@ -91,7 +109,7 @@ public class Model {
 		return user;
 	}
 	
-	public static boolean deleteTable()
+	public boolean deleteTable()
 	{
 		
 		Connexion connexion = new Connexion();

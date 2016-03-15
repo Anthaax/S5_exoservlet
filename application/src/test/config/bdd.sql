@@ -1,0 +1,10 @@
+DROP TABLE user IF EXISTS;;
+CREATE TABLE user (
+  id INTEGER  NOT NULL PRIMARY KEY,
+  nom VARCHAR(50) NOT NULL,
+  prenom VARCHAR(50) NOT NULL,
+  email VARCHAR(50)NOT NULL,
+  login VARCHAR(30) NOT NULL,
+  password VARCHAR(80) NOT NULL,
+  datenaissance datetime NOT NULL
+);;

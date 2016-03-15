@@ -1,0 +1,1 @@
+INSERT INTO user VALUES(1,'nom', 'prenom', 'fimes@laposte.net','login','password','1994-02-20 00:00:00');;

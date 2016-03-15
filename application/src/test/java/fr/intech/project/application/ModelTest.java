@@ -1,10 +1,16 @@
 package fr.intech.project.application;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -13,26 +19,33 @@ import fr.intech.s5.appusers.models.Model;
 
 public class ModelTest {
 
+	private static JdbcTemplate jdbcTemplate;
+	private static EmbeddedDatabase database;
+	private Model modele;
 	
 	@BeforeClass
 	public static void init() {
-		int id = 0;
-		String nom = "NSENGUET TOSSAM";
-		String prenom = "Joris";
-		String email = "nsenguetjoris@gmail.com";
-		String login = "deviok";
-		String password = "toto";
-		LocalDate dateNaiss = LocalDate.of(2016, 3, 16);
-		User user = new User(id, nom, prenom, email, login, password, dateNaiss);
-		
-		Model.addUser(user);
-		
+		database = (EmbeddedDatabase) (new EmbeddedDatabaseBuilder())
+				.setSeparator(";;")
+				.addScript("classpath:bdd.sql")
+				.addScript("classpath:load.sql")
+				.build();
+	jdbcTemplate = new JdbcTemplate(database);
+	}
+	
+	@Before
+	public void setUp() {
+		try {
+			modele = new Model(jdbcTemplate.getDataSource().getConnection());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void isUserTest()
 	{
-		assertEquals(true, Model.isUser("deviok", "toto"));
+		assertEquals(true, modele.isUser("deviok", "toto"));
 	}
 	
 	@Test
@@ -47,8 +60,8 @@ public class ModelTest {
 		LocalDate dateNaiss = LocalDate.of(1995, 10, 18);
 		User user = new User(id, nom, prenom, email, login, password, dateNaiss);
 		
-		assertEquals(true, Model.addUser(user));
-		User userRecup = Model.getUser(login, password);
+		assertEquals(true, modele.addUser(user));
+		User userRecup = modele.getUser(login, password);
 		assertNotNull(userRecup);
 		assertEquals(nom, userRecup.getNom());
 		assertEquals(prenom, userRecup.getPrenom());
@@ -63,7 +76,7 @@ public class ModelTest {
 	@Test
 	public void getUserTest()
 	{
-		User user = Model.getUser("deviok", "toto");
+		User user = modele.getUser("deviok", "toto");
 		
 		assertNotNull(user);
 		assertEquals("NSENGUET TOSSAM", user.getNom());
@@ -81,6 +94,6 @@ public class ModelTest {
 	
 	@AfterClass
 	public static void tear() {
-		Model.deleteTable();
+		database.shutdown();
 	}
 }
