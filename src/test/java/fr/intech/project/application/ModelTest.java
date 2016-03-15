@@ -75,11 +75,46 @@ public class ModelTest {
 		final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		final LocalDate localDate = LocalDate.parse(user.getDateNaiss().toString(), dtf);
 		assertEquals(LocalDate.of(2016, 3, 16), localDate);
+	}
+	
+	@Test
+	public void getUserTestByID()
+	{
+		
+		User user = Model.getUserWithID(0);
+		
+		assertNotNull(user);
+		assertEquals("NSENGUET TOSSAM", user.getNom());
+		assertEquals("Joris", user.getPrenom());
+		assertEquals("nsenguetjoris@gmail.com", user.getEmail());
+		assertEquals("deviok", user.getLogin());
+		assertEquals("toto", user.getPassword());
+		final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		final LocalDate localDate = LocalDate.parse(user.getDateNaiss().toString(), dtf);
+		assertEquals(LocalDate.of(2016, 3, 16), localDate);
+	}
+	
+	@Test
+	public void deleteUser()
+	{
+		int id = 2;
+		String nom = "Fimes";
+		String prenom = "Guillaume";
+		String email = "fg@gmail.com";
+		String login = "guillaume";
+		String password = "guillaume";
+		LocalDate dateNaiss = LocalDate.of(1995, 10, 18);
+		User user = new User(id, nom, prenom, email, login, password, dateNaiss);
+		
+		Model.addUser(user);
+		
+		Model.deleteUser(user);
+		user = Model.getUserWithID(2);
+		assertEquals(null, user);
 		
 		
 	}
-	
-	
+
 	@AfterClass
 	public static void tear() {
 		Model.deleteTable();

@@ -97,9 +97,11 @@ public class Model {
 		Connexion connexion = new Connexion();
 		User user = null;
 		try {
-			Statement st = connexion.getConnexion().createStatement();
-			ResultSet rs= st.executeQuery("SELECT * FROM users WHERE login = '"+pseudo+"' AND password = '"+mdp+"'");
-
+			PreparedStatement pt = connexion.getConnexion().prepareStatement("SELECT * FROM users WHERE login = ? AND password = ?");
+			pt.setString(1, pseudo);
+			pt.setString(2, mdp);
+			ResultSet rs= pt.executeQuery();
+			
 			while(rs.next())
 			{
 				user = new User();
@@ -138,7 +140,7 @@ public class Model {
 		Connexion connexion = new Connexion();
 		User user = null;
 		try {
-			PreparedStatement pt = connexion.getConnexion().prepareStatement("select * from users where usersID = ?");
+			PreparedStatement pt = connexion.getConnexion().prepareStatement("select * from users where id = ?");
 			pt.setInt(1, id);
 			ResultSet rs= pt.executeQuery();
 
@@ -179,9 +181,9 @@ public class Model {
 	{
 		Connexion connexion = new Connexion();
 		try {
-			PreparedStatement pt = connexion.getConnexion().prepareStatement("DELETE from users WHERE usersID = ?");
+			PreparedStatement pt = connexion.getConnexion().prepareStatement("DELETE from users WHERE id = ?");
 			pt.setInt(1, user.getId());
-			pt.executeQuery();
+			pt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
