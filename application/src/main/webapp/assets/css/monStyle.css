@@ -1,0 +1,11 @@
+body
+{
+	padding-top: 60px;
+}
+
+#msgErrorLogin
+{
+	color: red;
+	font-size: 18px;
+	text-align: center;
+}
