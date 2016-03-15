@@ -15,19 +15,19 @@ import fr.intech.s5.appusers.services.Connexion;
 
 public class Model {
 
-	private static Connexion connexion;
 	public Model()
 	{
 		
 	}
-	public static void Connect()
-	{
-		connexion = new Connexion();
-	}
-	
+	/**
+	 * Check if pseudo and mdp was assigned to the same user
+	 * @param pseudo
+	 * @param mdp
+	 * @return true if is an user
+	 */
 	public static boolean isUser(String pseudo, String mdp)
 	{
-		
+		Connexion connexion = new Connexion();
 		try {
 			Statement st = connexion.getConnexion().createStatement();
 			ResultSet resultat = st.executeQuery("SELECT * FROM users");
@@ -46,17 +46,20 @@ public class Model {
 			try {
 				connexion.getConnexion().close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		return false;
 	}
-	
+	/**
+	 * Add an user into database
+	 * @param user
+	 * @return return true if user as been created 
+	 */
 	public static boolean addUser(User user)
 	{
+		Connexion connexion = new Connexion();
 		String sql = "INSERT INTO users(nom, prenom, email, login, password, datenaissance, id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-		//Connexion connexion = new Connexion();
 		try {
 			PreparedStatement st = connexion.getConnexion().prepareStatement(sql);
 			st.setString(1, user.getNom());
@@ -72,14 +75,26 @@ public class Model {
 			e.printStackTrace();
 			return false;
 		}
-		
+		finally {
+			try {
+				connexion.getConnexion().close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return true;
 		
 	}
-	
+	/**
+	 * Get an user with is pseuod and mdp
+	 * @param pseudo
+	 * @param mdp
+	 * @return An User or null
+	 */
 	public static User getUser(String pseudo, String mdp)
 	{
-		//Connexion connexion = new Connexion();
+		Connexion connexion = new Connexion();
 		User user = null;
 		try {
 			Statement st = connexion.getConnexion().createStatement();
@@ -103,23 +118,107 @@ public class Model {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+		finally {
+			try {
+				connexion.getConnexion().close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return user;
 	}
+	/**
+	 *  Get an user with is id
+	 * @param id
+	 * @return An User or null
+	 */
+	public static User getUserWithID(int id)
+	{
+		Connexion connexion = new Connexion();
+		User user = null;
+		try {
+			PreparedStatement pt = connexion.getConnexion().prepareStatement("select * from users where usersID = ?");
+			pt.setInt(1, id);
+			ResultSet rs= pt.executeQuery();
+
+			while(rs.next())
+			{
+				user = new User();
+				user.setId(rs.getInt(7));
+				user.setNom(rs.getString(1));
+				user.setPrenom(rs.getString(2));
+				user.setEmail(rs.getString(3));
+				user.setLogin(rs.getString(4));
+				user.setPassword(rs.getString(5));
+				final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				final LocalDate localDate = LocalDate.parse(rs.getDate(6).toString(), dtf);
+				user.setDateNaiss(localDate);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				connexion.getConnexion().close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return user;
+	}
+	/**
+	 * Delete an user from database 
+	 * @param user
+	 * @return true if it's ok
+	 */
+	public static boolean deleteUser(User user)
+	{
+		Connexion connexion = new Connexion();
+		try {
+			PreparedStatement pt = connexion.getConnexion().prepareStatement("DELETE from users WHERE usersID = ?");
+			pt.setInt(1, user.getId());
+			pt.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			try {
+				connexion.getConnexion().close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return true;
+	}
 	
+	/**
+	 * Delete the table
+	 * @return true if the table as been delete
+	 */
 	public static boolean deleteTable()
 	{
-		
-		//Connexion connexion = new Connexion();
+		Connexion connexion = new Connexion();
 		try {
 			Statement st = connexion.getConnexion().createStatement();
 			st.executeUpdate("TRUNCATE TABLE users");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
-		}
-		
-		
+		} 
+		finally {
+			try {
+				connexion.getConnexion().close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}		
 		return true;
 	}
 }

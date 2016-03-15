@@ -19,12 +19,12 @@ Thumbs.db
 *.cache
 *.ilk
 *.log
-*.metadata
-*.settings
+*.metadata/*
+*.settings/*
 *RemoteSystemsTempFiles
-*.classpath
-*.project
-*target
+.classpath
+.project
+/target
 [Bb]in
 [Dd]ebug*/
 *.lib
