@@ -28,33 +28,44 @@ public class LoginServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String errorMsg = "";
 		request.setAttribute("message", errorMsg);
-		request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+		try {
+			request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+		} catch (Exception e) {
+			Model.printErr(e);
+		}
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		String pseudo = (String)request.getParameter("pseudo");
 		String password = (String)request.getParameter("password");
 		
+		try {
+			if(Model.isUser(pseudo, password))
+			{
+				User user = Model.getUser(pseudo, password);
+				request.setAttribute("user", user);
+				request.getRequestDispatcher("/WEB-INF/auth.jsp").forward(request, response);
+			}
+			else
+			{
+				String errorMsg = "Pseudonyme ou mot de passe erroné.";
+				request.setAttribute("message", errorMsg);
+				request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+			}
+		} catch (Exception e) {
+			Model.printErr(e);
+		}
 		
-		if(Model.isUser(pseudo, password))
-		{
-			User user = Model.getUser(pseudo, password);
-			request.setAttribute("user", user);
-			request.getRequestDispatcher("/WEB-INF/auth.jsp").forward(request, response);
-		}
-		else
-		{
-			String errorMsg = "Pseudonyme ou mot de passe erroné.";
-			request.setAttribute("message", errorMsg);
-			request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-		}
 		
 	}
 

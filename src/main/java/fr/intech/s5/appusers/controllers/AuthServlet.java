@@ -6,8 +6,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import fr.intech.s5.appusers.beans.User;
+import fr.intech.s5.appusers.models.Model;
 
 /**
  * Servlet implementation class AuthServlet
@@ -21,30 +21,40 @@ public class AuthServlet extends HttpServlet {
      */
     public AuthServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = (User)request.getAttribute("user");
 		
-		if(user == null)
-		{
-			request.setAttribute("message", "");
-			request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+		try {
+			if(user == null)
+			{
+				request.setAttribute("message", "");
+				request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+			}
+			else
+				request.getRequestDispatcher("/WEB-INF/auth.jsp").forward(request, response);
+		} catch (Exception e) {
+			Model.printErr(e);
 		}
-		else
-			request.getRequestDispatcher("/WEB-INF/auth.jsp").forward(request, response);
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		try {
+			doGet(request, response);
+		} catch (Exception e) {
+			Model.printErr(e);
+		}
+		
 	}
 
 }

@@ -25,28 +25,34 @@ public class InscriptionServlet extends HttpServlet {
      */
     public InscriptionServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/inscription.jsp").forward(request, response);
+		try {
+			request.getRequestDispatcher("/WEB-INF/inscription.jsp").forward(request, response);
+		} catch (Exception e) {
+			Model.printErr(e);
+		}
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String nom = request.getParameter("nom");
 		String prenom = request.getParameter("prenom");
-		String dateNaiss = (String) request.getParameter("dateNaiss");
+		String dateNaiss = request.getParameter("dateNaiss");
 		String email = request.getParameter("email");
 		String login = request.getParameter("login");
 		String password = request.getParameter("password");
+		String message = "";
 		
 		final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		final LocalDate localDate = LocalDate.parse(dateNaiss, dtf);
@@ -59,7 +65,6 @@ public class InscriptionServlet extends HttpServlet {
 		user.setPassword(password);
 		user.setDateNaiss(localDate);
 		
-		String message;
 		
 		if(Model.addUser(user))
 		{
@@ -71,7 +76,12 @@ public class InscriptionServlet extends HttpServlet {
 		
 		request.setAttribute("message", message);
 		
-		request.getRequestDispatcher("/WEB-INF/resultInscription.jsp").forward(request, response);
+		try {
+			request.getRequestDispatcher("/WEB-INF/resultInscription.jsp").forward(request, response);
+		} catch (Exception e) {
+			Model.printErr(e);
+		}
+		
 	}
 
 }

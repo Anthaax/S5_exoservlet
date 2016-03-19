@@ -8,17 +8,22 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
-
+import java.util.logging.Logger;
 import fr.intech.s5.appusers.beans.User;
 import fr.intech.s5.appusers.services.Connexion;
 
 public class Model {
-
-	public Model()
+	
+	private static Logger logger = Logger.getLogger( Model.class.getName());
+	
+	/**
+	 * Constructeur inutile!
+	 */
+	private Model()
 	{
-		
+		//Rien a y mettre!
 	}
+	
 	/**
 	 * Check if pseudo and mdp was assigned to the same user
 	 * @param pseudo
@@ -39,17 +44,17 @@ public class Model {
 				}
 			}
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
+			
+		} catch (Exception e) {
+			printErr(e);
 		}
 		finally {
-			try {
-				connexion.getConnexion().close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			closeConnection(connexion);
 		}
+		
 		return false;
+		
+		
 	}
 	/**
 	 * Add an user into database
@@ -71,17 +76,12 @@ public class Model {
 			st.setInt(7, user.getId());
 			
 			st.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		}catch (Exception e) {
+			printErr(e);
 			return false;
 		}
 		finally {
-			try {
-				connexion.getConnexion().close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			closeConnection(connexion);
 		}
 		return true;
 		
@@ -117,16 +117,11 @@ public class Model {
 				
 			}
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			printErr(e);
 		}
 		finally {
-			try {
-				connexion.getConnexion().close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			closeConnection(connexion);
 		}
 		return user;
 	}
@@ -159,16 +154,11 @@ public class Model {
 				
 			}
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			printErr(e);
 		}
 		finally {
-			try {
-				connexion.getConnexion().close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			closeConnection(connexion);
 		}
 		return user;
 	}
@@ -184,17 +174,12 @@ public class Model {
 			PreparedStatement pt = connexion.getConnexion().prepareStatement("DELETE from users WHERE id = ?");
 			pt.setInt(1, user.getId());
 			pt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			printErr(e);
 			return false;
 		}
 		finally {
-			try {
-				connexion.getConnexion().close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			closeConnection(connexion);
 		}
 		return true;
 	}
@@ -209,18 +194,26 @@ public class Model {
 		try {
 			Statement st = connexion.getConnexion().createStatement();
 			st.executeUpdate("TRUNCATE TABLE users");
-		} catch (SQLException e) {
-			e.printStackTrace();
+		}catch (Exception e) {
+			printErr(e);
 			return false;
-		} 
+		}
 		finally {
-			try {
-				connexion.getConnexion().close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}		
+			closeConnection(connexion);
+		}	
 		return true;
+	}
+	
+	private static void closeConnection(Connexion con)
+	{
+		try {
+			con.getConnexion().close();
+		} catch (SQLException e) {
+			printErr(e);
+		}
+	}
+	public static void printErr(Exception e)
+	{
+		logger.severe(e.getMessage());
 	}
 }
