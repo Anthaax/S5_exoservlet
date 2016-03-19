@@ -77,8 +77,7 @@ public class Model {
 			
 			st.executeUpdate();
 		}catch (Exception e) {
-			//printErr(e);
-			e.printStackTrace();
+			printErr(e);
 			return false;
 		}
 		finally {
