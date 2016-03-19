@@ -21,9 +21,8 @@ public class User {
 		this.prenom = "";
 		this.email = "";
 		this.login = "";
-		this.dateNaiss = LocalDate.of(0, 0, 0);
+		this.dateNaiss = LocalDate.of(1, 1, 1);
 	}
-
 	/**
 	 * @param id
 	 * @param nom

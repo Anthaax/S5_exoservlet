@@ -3,13 +3,11 @@ package fr.intech.s5.appusers.controllers;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import fr.intech.s5.appusers.beans.User;
 import fr.intech.s5.appusers.models.Model;
 
@@ -64,7 +62,6 @@ public class InscriptionServlet extends HttpServlet {
 		user.setLogin(login);
 		user.setPassword(password);
 		user.setDateNaiss(localDate);
-		
 		
 		if(Model.addUser(user))
 		{
