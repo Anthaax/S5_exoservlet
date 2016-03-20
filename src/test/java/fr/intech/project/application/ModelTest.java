@@ -24,7 +24,7 @@ public class ModelTest {
 		String login = "deviok";
 		String password = "toto";
 		LocalDate dateNaiss = LocalDate.of(2016, 3, 16);
-		User user = new User(id, nom, prenom, email, login, password, dateNaiss);
+		User user = new User(nom, prenom, email, login, password, dateNaiss);
 		
 		Model.addUser(user);
 		
@@ -39,14 +39,13 @@ public class ModelTest {
 	@Test
 	public void addUserTest()
 	{
-		int id = 1;
 		String nom = "PEUCH";
 		String prenom = "Guillaume";
 		String email = "gp@gmail.com";
 		String login = "Clement";
 		String password = "benoit";
 		LocalDate dateNaiss = LocalDate.of(1995, 10, 18);
-		User user = new User(id, nom, prenom, email, login, password, dateNaiss);
+		User user = new User(nom, prenom, email, login, password, dateNaiss);
 		
 		assertEquals(true, Model.addUser(user));
 		User userRecup = Model.getUser(login, password);
@@ -81,7 +80,7 @@ public class ModelTest {
 	public void getUserTestByID()
 	{
 		
-		User user = Model.getUserWithID(0);
+		User user = Model.getUser("deviok", "toto");
 		
 		assertNotNull(user);
 		assertEquals("NSENGUET TOSSAM", user.getNom());
@@ -97,19 +96,18 @@ public class ModelTest {
 	@Test
 	public void deleteUser()
 	{
-		int id = 2;
 		String nom = "Fimes";
 		String prenom = "Guillaume";
 		String email = "fg@gmail.com";
 		String login = "guillaume";
 		String password = "guillaume";
 		LocalDate dateNaiss = LocalDate.of(1995, 10, 18);
-		User user = new User(id, nom, prenom, email, login, password, dateNaiss);
+		User user = new User( nom, prenom, email, login, password, dateNaiss);
 		
 		Model.addUser(user);
 		
 		Model.deleteUser(user);
-		user = Model.getUserWithID(2);
+		user = Model.getUser("guillaume", "guillaume");
 		assertEquals(null, user);
 		
 		

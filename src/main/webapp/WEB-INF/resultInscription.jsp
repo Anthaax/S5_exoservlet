@@ -7,7 +7,7 @@
 <body>
 	<%@ include file="header.jsp"%>
 	<div class="container">
-		<h1><% out.println(request.getAttribute("message")); %></h1>
+		<h1><% out.print(request.getAttribute("message")); %></h1>
 		<hr>
 		
 		<br>

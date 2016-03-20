@@ -2,8 +2,15 @@ package fr.intech.s5.appusers.beans;
 
 import java.time.LocalDate;
 
-public class User {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
+public class User {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	private String nom;
 	private String prenom;
@@ -15,7 +22,6 @@ public class User {
 	public User(){}
 
 	/**
-	 * @param id
 	 * @param nom
 	 * @param prenom
 	 * @param email
@@ -23,9 +29,7 @@ public class User {
 	 * @param password
 	 * @param dateNaiss
 	 */
-	public User(int id, String nom, String prenom, String email, String login, String password, LocalDate dateNaiss) {
-		super();
-		this.id = id;
+	public User(String nom, String prenom, String email, String login, String password, LocalDate dateNaiss) {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.email = email;
