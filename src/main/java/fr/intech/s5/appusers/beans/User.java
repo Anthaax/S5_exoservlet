@@ -19,8 +19,17 @@ public class User {
 	private String password;
 	private LocalDate dateNaiss;
 	
-	public User(){}
-
+	/**
+	 * Constructeur par defaut
+	 */
+	public User(){
+		this.id = 0;
+		this.nom = "";
+		this.prenom = "";
+		this.email = "";
+		this.login = "";
+		this.dateNaiss = LocalDate.of(1, 1, 1);
+	}
 	/**
 	 * @param nom
 	 * @param prenom
