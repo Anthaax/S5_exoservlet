@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import fr.intech.s5.appusers.beans.User;
 import fr.intech.s5.appusers.services.Connexion;
+import fr.intech.s5.appusers.services.MD5;
 
 public class Model {
 	
@@ -40,7 +41,7 @@ public class Model {
 			ResultSet resultat = st.executeQuery("SELECT * FROM users");
 			while(resultat.next())
 			{
-				if(pseudo.equals(resultat.getString(4)) && mdp.equals(resultat.getString(5)))
+				if(pseudo.equals(resultat.getString(4)) && MD5.crypt(mdp).equals(resultat.getString(5)))
 				{
 					return true;
 				}
@@ -113,7 +114,7 @@ public class Model {
 		try {
 			PreparedStatement pt = connexion.getConnexion().prepareStatement("SELECT * FROM users WHERE login = ? AND password = ?");
 			pt.setString(1, pseudo);
-			pt.setString(2, mdp);
+			pt.setString(2, MD5.crypt(mdp));
 			ResultSet rs= pt.executeQuery();
 			
 			while(rs.next())
@@ -258,7 +259,7 @@ public class Model {
 			pt.setString(2, user.getPrenom());
 			pt.setString(3, user.getEmail());
 			pt.setString(4, user.getLogin());
-			pt.setString(5, user.getPassword());
+			pt.setString(5, MD5.crypt(user.getPassword()));
 			pt.setDate(6, Date.valueOf(user.getDateNaiss()));
 			pt.setInt(7, user.getId());
 		} catch (Exception e) {

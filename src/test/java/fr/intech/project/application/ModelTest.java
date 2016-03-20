@@ -9,7 +9,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import fr.intech.s5.appusers.beans.User;
 import fr.intech.s5.appusers.models.Model;
+import fr.intech.s5.appusers.services.MD5;
 
+/**
+ * 
+ * @author Joris
+ *
+ */
 public class ModelTest {
 
 	
@@ -59,7 +65,7 @@ public class ModelTest {
 		assertEquals(prenom, userRecup.getPrenom());
 		assertEquals(email, userRecup.getEmail());
 		assertEquals(login, userRecup.getLogin());
-		assertEquals(password, userRecup.getPassword());
+		assertEquals(MD5.crypt(password), userRecup.getPassword());
 		final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		final LocalDate localDate = LocalDate.parse(userRecup.getDateNaiss().toString(), dtf);
 		assertEquals(LocalDate.of(1995, 10, 18).toString(), localDate.toString());
@@ -75,7 +81,7 @@ public class ModelTest {
 		assertEquals("Joris", user.getPrenom());
 		assertEquals("nsenguetjoris@gmail.com", user.getEmail());
 		assertEquals("deviok", user.getLogin());
-		assertEquals("toto", user.getPassword());
+		assertEquals(MD5.crypt("toto"), user.getPassword());
 		final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		final LocalDate localDate = LocalDate.parse(user.getDateNaiss().toString(), dtf);
 		assertEquals(LocalDate.of(2016, 3, 16), localDate);
@@ -107,7 +113,7 @@ public class ModelTest {
 		assertEquals("Joris", user.getPrenom());
 		assertEquals("nsenguetjoris@gmail.com", user.getEmail());
 		assertEquals("deviok", user.getLogin());
-		assertEquals("toto", user.getPassword());
+		assertEquals(MD5.crypt("toto"), user.getPassword());
 		final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		final LocalDate localDate = LocalDate.parse(user.getDateNaiss().toString(), dtf);
 		assertEquals(LocalDate.of(2016, 3, 16), localDate);
