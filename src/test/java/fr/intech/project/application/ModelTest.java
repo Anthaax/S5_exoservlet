@@ -1,22 +1,21 @@
 package fr.intech.project.application;
 
+import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import fr.intech.s5.appusers.beans.User;
 import fr.intech.s5.appusers.models.Model;
 
 public class ModelTest {
 
 	
-	@BeforeClass
-	public static void init() {
-		//Model.Connect();
+	@Before
+	public void theBefore()
+	{
 		int id = 0;
 		String nom = "NSENGUET TOSSAM";
 		String prenom = "Joris";
@@ -27,7 +26,12 @@ public class ModelTest {
 		User user = new User(id, nom, prenom, email, login, password, dateNaiss);
 		
 		Model.addUser(user);
-		
+	}
+	
+	@After
+	public void theAfter()
+	{
+		Model.deleteTable();
 	}
 	
 	@Test
@@ -78,9 +82,24 @@ public class ModelTest {
 	}
 	
 	@Test
+	public void getAllUsersTest()
+	{
+		int id = 1;
+		String nom = "PEUCH";
+		String prenom = "Guillaume";
+		String email = "gp@gmail.com";
+		String login = "Clement";
+		String password = "benoit";
+		LocalDate dateNaiss = LocalDate.of(1995, 10, 18);
+		User user = new User(id, nom, prenom, email, login, password, dateNaiss);
+		Model.addUser(user);
+		
+		assertEquals(2, Model.getAllUsers().size());
+	}
+	
+	@Test
 	public void getUserTestByID()
 	{
-		
 		User user = Model.getUserWithID(0);
 		
 		assertNotNull(user);
@@ -95,7 +114,7 @@ public class ModelTest {
 	}
 	
 	@Test
-	public void deleteUser()
+	public void deleteUserTest()
 	{
 		int id = 2;
 		String nom = "Fimes";
@@ -108,7 +127,7 @@ public class ModelTest {
 		
 		Model.addUser(user);
 		
-		Model.deleteUser(user);
+		Model.deleteUser(user.getId());
 		user = Model.getUserWithID(2);
 		assertEquals(null, user);
 		

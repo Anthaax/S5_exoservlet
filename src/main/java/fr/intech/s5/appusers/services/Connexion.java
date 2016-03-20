@@ -20,11 +20,12 @@ public class Connexion {
      */
     public Connexion(){
     	
-    database = (EmbeddedDatabase) (new EmbeddedDatabaseBuilder())
-				.setSeparator(";;")
-				.addScript("classpath:bdd.sql")
-				.build();
-	jdbcTemplate = new JdbcTemplate(database);
+    	//Initialisation de la base de données
+	    database = (EmbeddedDatabase) (new EmbeddedDatabaseBuilder())
+					.setSeparator(";;")
+					.addScript("classpath:bdd.sql")
+					.build();
+		jdbcTemplate = new JdbcTemplate(database);
   
    }
     
