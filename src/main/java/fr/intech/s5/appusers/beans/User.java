@@ -1,23 +1,28 @@
 package fr.intech.s5.appusers.beans;
 
-import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private long id;
 	private String nom;
 	private String prenom;
 	private String email;
 	private String login;
 	private String password;
-	private LocalDate dateNaiss;
+	
+	@Temporal(TemporalType.DATE)
+	private Date dateNaiss;
 	
 	/**
 	 * Constructeur par defaut
@@ -28,7 +33,8 @@ public class User {
 		this.prenom = "";
 		this.email = "";
 		this.login = "";
-		this.dateNaiss = LocalDate.of(1, 1, 1);
+		this.password = "";
+		this.dateNaiss = Calendar.getInstance().getTime();
 	}
 	/**
 	 * @param nom
@@ -38,7 +44,7 @@ public class User {
 	 * @param password
 	 * @param dateNaiss
 	 */
-	public User(String nom, String prenom, String email, String login, String password, LocalDate dateNaiss) {
+	public User(String nom, String prenom, String email, String login, String password, Date dateNaiss) {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.email = email;
@@ -50,14 +56,14 @@ public class User {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -134,14 +140,14 @@ public class User {
 	/**
 	 * @return the dateNaiss
 	 */
-	public LocalDate getDateNaiss() {
+	public Date getDateNaiss() {
 		return dateNaiss;
 	}
 
 	/**
 	 * @param dateNaiss the dateNaiss to set
 	 */
-	public void setDateNaiss(LocalDate dateNaiss) {
+	public void setDateNaiss(Date dateNaiss) {
 		this.dateNaiss = dateNaiss;
 	}
 	

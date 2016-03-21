@@ -1,7 +1,8 @@
 package fr.intech.s5.appusers.models;
 
 
-import java.sql.Date;
+import java.util.Calendar;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -72,8 +73,8 @@ public class Model {
 			st.setString(3, user.getEmail());
 			st.setString(4, user.getLogin());
 			st.setString(5, user.getPassword());
-			st.setDate(6, Date.valueOf(user.getDateNaiss()));
-			st.setInt(7, user.getId());
+			st.setDate(6, (Date) (user.getDateNaiss()));
+			st.setLong(7, user.getId());
 			
 			st.executeUpdate();
 		}catch (Exception e) {
@@ -113,7 +114,7 @@ public class Model {
 				user.setPassword(rs.getString(5));
 				final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 				final LocalDate localDate = LocalDate.parse(rs.getDate(6).toString(), dtf);
-				user.setDateNaiss(localDate);
+				user.setDateNaiss(Date.parse(rs.getDate(6).toString()));
 				
 			}
 			
@@ -150,7 +151,7 @@ public class Model {
 				user.setPassword(rs.getString(5));
 				final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 				final LocalDate localDate = LocalDate.parse(rs.getDate(6).toString(), dtf);
-				user.setDateNaiss(localDate);
+				user.setDateNaiss(Date.valueOf(localDate));
 				
 			}
 			
@@ -172,7 +173,7 @@ public class Model {
 		Connexion connexion = new Connexion();
 		try {
 			PreparedStatement pt = connexion.getConnexion().prepareStatement("DELETE from users WHERE id = ?");
-			pt.setInt(1, user.getId());
+			pt.setLong(1, user.getId());
 			pt.executeUpdate();
 		} catch (Exception e) {
 			printErr(e);

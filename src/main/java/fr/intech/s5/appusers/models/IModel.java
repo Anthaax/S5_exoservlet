@@ -1,5 +1,7 @@
 package fr.intech.s5.appusers.models;
 
+import java.util.Collection;
+
 import fr.intech.s5.appusers.beans.Telephone;
 import fr.intech.s5.appusers.beans.User;
 
@@ -17,10 +19,12 @@ public interface IModel {
 	
 	public boolean deleteTelephone(Telephone telephone);
 	
-	public boolean selectAllUser();
+	public Collection<User> selectAllUser();
 	
-	public boolean selectUserById(int id);
+	public User selectUserById(int id);
 	
-	public boolean selectTelephone(int id);
+	public User selectUserByLoginAndPassword(String login, String password);
+	
+	public Telephone selectTelephone(int id);
 		
 }

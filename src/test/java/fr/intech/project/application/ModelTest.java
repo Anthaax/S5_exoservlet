@@ -5,6 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -17,13 +18,12 @@ public class ModelTest {
 	@BeforeClass
 	public static void init() {
 		//Model.Connect();
-		int id = 0;
 		String nom = "NSENGUET TOSSAM";
 		String prenom = "Joris";
 		String email = "nsenguetjoris@gmail.com";
 		String login = "deviok";
 		String password = "toto";
-		LocalDate dateNaiss = LocalDate.of(2016, 3, 16);
+		Date dateNaiss = Date.valueOf(LocalDate.of(2016, 3, 16));
 		User user = new User(nom, prenom, email, login, password, dateNaiss);
 		
 		Model.addUser(user);
@@ -44,7 +44,7 @@ public class ModelTest {
 		String email = "gp@gmail.com";
 		String login = "Clement";
 		String password = "benoit";
-		LocalDate dateNaiss = LocalDate.of(1995, 10, 18);
+		Date dateNaiss = Date.valueOf(LocalDate.of(1995, 10, 18));
 		User user = new User(nom, prenom, email, login, password, dateNaiss);
 		
 		assertEquals(true, Model.addUser(user));
@@ -101,7 +101,7 @@ public class ModelTest {
 		String email = "fg@gmail.com";
 		String login = "guillaume";
 		String password = "guillaume";
-		LocalDate dateNaiss = LocalDate.of(1995, 10, 18);
+		Date dateNaiss = Date.valueOf(LocalDate.of(1995, 10, 18));
 		User user = new User( nom, prenom, email, login, password, dateNaiss);
 		
 		Model.addUser(user);

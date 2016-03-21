@@ -1,6 +1,7 @@
 package fr.intech.s5.appusers.controllers;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.servlet.ServletException;
@@ -61,7 +62,7 @@ public class InscriptionServlet extends HttpServlet {
 		user.setEmail(email);
 		user.setLogin(login);
 		user.setPassword(password);
-		user.setDateNaiss(localDate);
+		user.setDateNaiss(Date.valueOf(localDate));
 		
 		if(Model.addUser(user))
 		{
