@@ -51,7 +51,7 @@ public class InscriptionServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String login = request.getParameter("login");
 		String password = request.getParameter("password");
-		String message = "";
+		
 		
 		final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		final LocalDate localDate = LocalDate.parse(dateNaiss, dtf);
@@ -66,13 +66,13 @@ public class InscriptionServlet extends HttpServlet {
 		
 		if(Model.addUser(user))
 		{
-			message = "Vous avez été bien inscrit.";
+			request.setAttribute("message", "Vous avez été bien inscrit.");
 		}
 		else {
-			message = "Une erreur est survenue lors de l'inscription.";
+			request.setAttribute("message", "Une erreur est survenue lors de l'inscription.");
 		}
 		
-		request.setAttribute("message", message);
+		
 		
 		try {
 			request.getRequestDispatcher("/WEB-INF/resultInscription.jsp").forward(request, response);

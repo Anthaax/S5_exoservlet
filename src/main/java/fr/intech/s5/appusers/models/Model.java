@@ -1,6 +1,5 @@
 package fr.intech.s5.appusers.models;
 
-
 import java.util.Calendar;
 import java.util.Date;
 import java.sql.PreparedStatement;
@@ -9,12 +8,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import fr.intech.s5.appusers.beans.User;
 import fr.intech.s5.appusers.services.Connexion;
+import fr.intech.s5.appusers.services.MD5;
 
 public class Model {
 	
+	//Logger pour afficher les informations.
 	private static Logger logger = Logger.getLogger( Model.class.getName());
 	
 	/**
@@ -39,7 +42,7 @@ public class Model {
 			ResultSet resultat = st.executeQuery("SELECT * FROM users");
 			while(resultat.next())
 			{
-				if(pseudo.equals(resultat.getString(4)) && mdp.equals(resultat.getString(5)))
+				if(pseudo.equals(resultat.getString(4)) && MD5.crypt(mdp).equals(resultat.getString(5)))
 				{
 					return true;
 				}
@@ -67,16 +70,10 @@ public class Model {
 		Connexion connexion = new Connexion();
 		String sql = "INSERT INTO users(nom, prenom, email, login, password, datenaissance, id) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		try {
-			PreparedStatement st = connexion.getConnexion().prepareStatement(sql);
-			st.setString(1, user.getNom());
-			st.setString(2, user.getPrenom());
-			st.setString(3, user.getEmail());
-			st.setString(4, user.getLogin());
-			st.setString(5, user.getPassword());
-			st.setDate(6, (Date) (user.getDateNaiss()));
-			st.setLong(7, user.getId());
+			PreparedStatement pt = connexion.getConnexion().prepareStatement(sql);
+			setParamsUser(pt, user);
 			
-			st.executeUpdate();
+			pt.executeUpdate();
 		}catch (Exception e) {
 			printErr(e);
 			return false;
@@ -87,8 +84,26 @@ public class Model {
 		return true;
 		
 	}
+	
 	/**
-	 * Get an user with is pseuod and mdp
+	 * Modifier un utilisateur.
+	 * @param user
+	 */
+	public static void modifyUser(User user)
+	{
+		Connexion connexion = new Connexion();
+		try {
+			PreparedStatement pt = connexion.getConnexion().prepareStatement("UPDATE users SET nom = ?, prenom = ?, email = ?, login = ?, password = ?, datenaissance = ? WHERE id = ?");
+			setParamsUser(pt, user);
+			
+			pt.executeUpdate();
+		} catch (Exception e) {
+			printErr(e);
+		}
+	}
+	
+	/**
+	 * Get an user with is pseudo and mdp
 	 * @param pseudo
 	 * @param mdp
 	 * @return An User or null
@@ -100,22 +115,12 @@ public class Model {
 		try {
 			PreparedStatement pt = connexion.getConnexion().prepareStatement("SELECT * FROM users WHERE login = ? AND password = ?");
 			pt.setString(1, pseudo);
-			pt.setString(2, mdp);
+			pt.setString(2, MD5.crypt(mdp));
 			ResultSet rs= pt.executeQuery();
 			
 			while(rs.next())
 			{
-				user = new User();
-				user.setId(rs.getInt(7));
-				user.setNom(rs.getString(1));
-				user.setPrenom(rs.getString(2));
-				user.setEmail(rs.getString(3));
-				user.setLogin(rs.getString(4));
-				user.setPassword(rs.getString(5));
-				final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-				final LocalDate localDate = LocalDate.parse(rs.getDate(6).toString(), dtf);
-				user.setDateNaiss(Date.parse(rs.getDate(6).toString()));
-				
+				user = hydrateUser(rs);
 			}
 			
 		} catch (Exception e) {
@@ -126,6 +131,7 @@ public class Model {
 		}
 		return user;
 	}
+	
 	/**
 	 *  Get an user with is id
 	 * @param id
@@ -142,17 +148,7 @@ public class Model {
 
 			while(rs.next())
 			{
-				user = new User();
-				user.setId(rs.getInt(7));
-				user.setNom(rs.getString(1));
-				user.setPrenom(rs.getString(2));
-				user.setEmail(rs.getString(3));
-				user.setLogin(rs.getString(4));
-				user.setPassword(rs.getString(5));
-				final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-				final LocalDate localDate = LocalDate.parse(rs.getDate(6).toString(), dtf);
-				user.setDateNaiss(Date.valueOf(localDate));
-				
+				user = hydrateUser(rs);
 			}
 			
 		} catch (Exception e) {
@@ -163,17 +159,44 @@ public class Model {
 		}
 		return user;
 	}
+	
+	/**
+	 * Recuperer tous les users
+	 */
+	public static List<User> getAllUsers()
+	{
+		List<User> users = new ArrayList<>();
+		Connexion connexion = new Connexion();
+		
+		try {
+			PreparedStatement pt = connexion.getConnexion().prepareStatement("SELECT * FROM users");
+			ResultSet rs= pt.executeQuery();
+			while(rs.next())
+			{
+				User user = hydrateUser(rs);
+				users.add(user);
+			}
+			
+		} catch (Exception e) {
+			printErr(e);
+		}
+		finally {
+			closeConnection(connexion);
+		}
+		return users;
+	}
+	
 	/**
 	 * Delete an user from database 
 	 * @param user
 	 * @return true if it's ok
 	 */
-	public static boolean deleteUser(User user)
+	public static boolean deleteUser(int idUser)
 	{
 		Connexion connexion = new Connexion();
 		try {
 			PreparedStatement pt = connexion.getConnexion().prepareStatement("DELETE from users WHERE id = ?");
-			pt.setLong(1, user.getId());
+			pt.setInt(1, idUser);
 			pt.executeUpdate();
 		} catch (Exception e) {
 			printErr(e);
@@ -205,6 +228,51 @@ public class Model {
 		return true;
 	}
 	
+	private static User hydrateUser(ResultSet rs)
+	{
+		User user = new User();
+		try {
+			user.setId(rs.getInt(7));
+			user.setNom(rs.getString(1));
+			user.setPrenom(rs.getString(2));
+			user.setEmail(rs.getString(3));
+			user.setLogin(rs.getString(4));
+			user.setPassword(rs.getString(5));
+			final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			final LocalDate localDate = LocalDate.parse(rs.getDate(6).toString(), dtf);
+			user.setDateNaiss(localDate);
+		} catch (Exception e) {
+			printErr(e);
+		}
+		
+		return user;
+	}
+	
+	/**
+	 * Introduction des paramatres dans la requete preparée pt avec un user.
+	 * @param pt
+	 * @param user
+	 */
+	private static void setParamsUser(PreparedStatement pt, User user)
+	{
+		try {
+			pt.setString(1, user.getNom());
+			pt.setString(2, user.getPrenom());
+			pt.setString(3, user.getEmail());
+			pt.setString(4, user.getLogin());
+			pt.setString(5, MD5.crypt(user.getPassword()));
+			pt.setDate(6, Date.valueOf(user.getDateNaiss()));
+			pt.setInt(7, user.getId());
+		} catch (Exception e) {
+			printErr(e);
+		}
+		
+	}
+	
+	/**
+	 * Fermeture d'une connexion...
+	 * @param con
+	 */
 	private static void closeConnection(Connexion con)
 	{
 		try {
@@ -213,6 +281,11 @@ public class Model {
 			printErr(e);
 		}
 	}
+	
+	/**
+	 * Affichage d'eventuelles erreurs
+	 * @param e
+	 */
 	public static void printErr(Exception e)
 	{
 		logger.severe(e.getMessage());

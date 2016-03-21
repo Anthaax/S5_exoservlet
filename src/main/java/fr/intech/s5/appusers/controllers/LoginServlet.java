@@ -46,8 +46,8 @@ public class LoginServlet extends HttpServlet {
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String pseudo = (String)request.getParameter("pseudo");
-		String password = (String)request.getParameter("password");
+		String pseudo = request.getParameter("pseudo");
+		String password = request.getParameter("password");
 		
 		try {
 			if(Model.isUser(pseudo, password))

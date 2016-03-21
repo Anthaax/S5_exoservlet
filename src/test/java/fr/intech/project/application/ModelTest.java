@@ -1,23 +1,28 @@
 package fr.intech.project.application;
 
+import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import fr.intech.s5.appusers.beans.User;
 import fr.intech.s5.appusers.models.Model;
+import fr.intech.s5.appusers.services.MD5;
 
+/**
+ * 
+ * @author Joris
+ *
+ */
 public class ModelTest {
 
 	
-	@BeforeClass
-	public static void init() {
-		//Model.Connect();
+	@Before
+	public void theBefore()
+	{
 		String nom = "NSENGUET TOSSAM";
 		String prenom = "Joris";
 		String email = "nsenguetjoris@gmail.com";
@@ -27,7 +32,12 @@ public class ModelTest {
 		User user = new User(nom, prenom, email, login, password, dateNaiss);
 		
 		Model.addUser(user);
-		
+	}
+	
+	@After
+	public void theAfter()
+	{
+		Model.deleteTable();
 	}
 	
 	@Test
@@ -54,7 +64,7 @@ public class ModelTest {
 		assertEquals(prenom, userRecup.getPrenom());
 		assertEquals(email, userRecup.getEmail());
 		assertEquals(login, userRecup.getLogin());
-		assertEquals(password, userRecup.getPassword());
+		assertEquals(MD5.crypt(password), userRecup.getPassword());
 		final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		final LocalDate localDate = LocalDate.parse(userRecup.getDateNaiss().toString(), dtf);
 		assertEquals(LocalDate.of(1995, 10, 18).toString(), localDate.toString());
@@ -70,32 +80,48 @@ public class ModelTest {
 		assertEquals("Joris", user.getPrenom());
 		assertEquals("nsenguetjoris@gmail.com", user.getEmail());
 		assertEquals("deviok", user.getLogin());
-		assertEquals("toto", user.getPassword());
+		assertEquals(MD5.crypt("toto"), user.getPassword());
 		final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		final LocalDate localDate = LocalDate.parse(user.getDateNaiss().toString(), dtf);
 		assertEquals(LocalDate.of(2016, 3, 16), localDate);
 	}
 	
 	@Test
+	public void getAllUsersTest()
+	{
+		int id = 1;
+		String nom = "PEUCH";
+		String prenom = "Guillaume";
+		String email = "gp@gmail.com";
+		String login = "Clement";
+		String password = "benoit";
+		LocalDate dateNaiss = LocalDate.of(1995, 10, 18);
+		User user = new User(id, nom, prenom, email, login, password, dateNaiss);
+		Model.addUser(user);
+		
+		assertEquals(2, Model.getAllUsers().size());
+	}
+	
+	@Test
 	public void getUserTestByID()
 	{
-		
-		User user = Model.getUser("deviok", "toto");
+		User user = Model.getUserWithID(0);
 		
 		assertNotNull(user);
 		assertEquals("NSENGUET TOSSAM", user.getNom());
 		assertEquals("Joris", user.getPrenom());
 		assertEquals("nsenguetjoris@gmail.com", user.getEmail());
 		assertEquals("deviok", user.getLogin());
-		assertEquals("toto", user.getPassword());
+		assertEquals(MD5.crypt("toto"), user.getPassword());
 		final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		final LocalDate localDate = LocalDate.parse(user.getDateNaiss().toString(), dtf);
 		assertEquals(LocalDate.of(2016, 3, 16), localDate);
 	}
 	
 	@Test
-	public void deleteUser()
+	public void deleteUserTest()
 	{
+		int id = 2;
 		String nom = "Fimes";
 		String prenom = "Guillaume";
 		String email = "fg@gmail.com";
@@ -106,7 +132,7 @@ public class ModelTest {
 		
 		Model.addUser(user);
 		
-		Model.deleteUser(user);
+		Model.deleteUser(user.getId());
 		user = Model.getUser("guillaume", "guillaume");
 		assertEquals(null, user);
 		

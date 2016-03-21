@@ -8,7 +8,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 
-
+/**
+ * 
+ * @author Joris
+ *
+ */
 public class Connexion {
    
     
@@ -20,11 +24,12 @@ public class Connexion {
      */
     public Connexion(){
     	
-    database = (EmbeddedDatabase) (new EmbeddedDatabaseBuilder())
-				.setSeparator(";;")
-				.addScript("classpath:bdd.sql")
-				.build();
-	jdbcTemplate = new JdbcTemplate(database);
+    	//Initialisation de la base de données
+	    database = (EmbeddedDatabase) (new EmbeddedDatabaseBuilder())
+					.setSeparator(";;")
+					.addScript("classpath:bdd.sql")
+					.build();
+		jdbcTemplate = new JdbcTemplate(database);
   
    }
     
