@@ -28,15 +28,26 @@ public class ModelImp implements IModel{
 	}
 
 	@Override
-	public boolean modifyUser(User user) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean modifyUser(User newUser) {
+		User user = em.find(User.class, 1);
+		  em.getTransaction().begin();
+		  user.setNom(newUser.getNom());
+		  user.setPrenom(newUser.getPrenom());
+		  user.setEmail(newUser.getEmail());
+		  user.setLogin(newUser.getLogin());
+		  user.setPassword(newUser.getPassword());
+		  em.getTransaction().commit();
+		  return true;
 	}
 
 	@Override
-	public boolean modifyTelephone(Telephone telephone) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean modifyTelephone(Telephone newTelephone) {
+		Telephone tel = em.find(Telephone.class, 1);
+		  em.getTransaction().begin();
+		  tel.setTelFix(newTelephone.getTelFix());
+		  tel.setTelPortable(newTelephone.getTelPortable());
+		  em.getTransaction().commit();
+		  return true;
 	}
 
 	@Override
