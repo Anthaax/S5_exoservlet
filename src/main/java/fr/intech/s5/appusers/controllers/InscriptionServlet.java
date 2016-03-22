@@ -53,16 +53,12 @@ public class InscriptionServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		
 		
-		final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		final LocalDate localDate = LocalDate.parse(dateNaiss, dtf);
-		
 		User user = new User();
 		user.setNom(nom);
 		user.setPrenom(prenom);
 		user.setEmail(email);
 		user.setLogin(login);
 		user.setPassword(password);
-		user.setDateNaiss(Date.valueOf(localDate));
 		
 		if(Model.addUser(user))
 		{

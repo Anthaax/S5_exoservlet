@@ -21,9 +21,6 @@ public class User {
 	private String login;
 	private String password;
 	
-	@Temporal(TemporalType.DATE)
-	private Date dateNaiss;
-	
 	/**
 	 * Constructeur par defaut
 	 */
@@ -34,7 +31,6 @@ public class User {
 		this.email = "";
 		this.login = "";
 		this.password = "";
-		this.dateNaiss = Calendar.getInstance().getTime();
 	}
 	/**
 	 * @param nom
@@ -44,13 +40,12 @@ public class User {
 	 * @param password
 	 * @param dateNaiss
 	 */
-	public User(String nom, String prenom, String email, String login, String password, Date dateNaiss) {
+	public User(String nom, String prenom, String email, String login, String password) {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.email = email;
 		this.login = login;
 		this.password = password;
-		this.dateNaiss = dateNaiss;
 	}
 
 	/**
@@ -135,21 +130,6 @@ public class User {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	/**
-	 * @return the dateNaiss
-	 */
-	public Date getDateNaiss() {
-		return dateNaiss;
-	}
-
-	/**
-	 * @param dateNaiss the dateNaiss to set
-	 */
-	public void setDateNaiss(Date dateNaiss) {
-		this.dateNaiss = dateNaiss;
-	}
-	
+	}	
 	
 }

@@ -17,6 +17,11 @@ public class Telephone {
 	
 	private String TelPortable;
 	
+	public Telephone() 
+	{
+		
+	}
+	
 	/**
 	 * 
 	 * @param telFix

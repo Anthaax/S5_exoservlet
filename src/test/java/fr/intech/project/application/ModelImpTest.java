@@ -2,8 +2,7 @@ package fr.intech.project.application;
 
 import static org.junit.Assert.assertEquals;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.Collection;
 
 import javax.persistence.EntityManager;
@@ -16,9 +15,7 @@ import org.junit.Test;
 
 import fr.intech.s5.appusers.beans.User;
 import fr.intech.s5.appusers.models.IModel;
-import fr.intech.s5.appusers.models.Model;
 import fr.intech.s5.appusers.models.ModelImp;
-import junit.framework.Assert;
 
 public class ModelImpTest {
 
@@ -36,11 +33,9 @@ public class ModelImpTest {
 		String email = "nsenguetjoris@gmail.com";
 		String login = "deviok";
 		String password = "toto";
-		Date dateNaiss = Date.valueOf(LocalDate.of(2016, 3, 16));
-		User user = new User(nom, prenom, email, login, password, dateNaiss);
-		User user2 = new User(nom, prenom, email, login, password, dateNaiss);
+		User user = new User(nom, prenom, email, login, password);
 		
-		em.persist(user2);
+		em.persist(user);
 				
 		et.commit();
 		

@@ -1,13 +1,9 @@
 package fr.intech.s5.appusers.models;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -191,12 +187,12 @@ public class Model {
 	 * @param user
 	 * @return true if it's ok
 	 */
-	public static boolean deleteUser(int idUser)
+	public static boolean deleteUser(long idUser)
 	{
 		Connexion connexion = new Connexion();
 		try {
 			PreparedStatement pt = connexion.getConnexion().prepareStatement("DELETE from users WHERE id = ?");
-			pt.setInt(1, idUser);
+			pt.setLong(1, idUser);
 			pt.executeUpdate();
 		} catch (Exception e) {
 			printErr(e);
@@ -238,9 +234,7 @@ public class Model {
 			user.setEmail(rs.getString(3));
 			user.setLogin(rs.getString(4));
 			user.setPassword(rs.getString(5));
-			final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			final LocalDate localDate = LocalDate.parse(rs.getDate(6).toString(), dtf);
-			user.setDateNaiss(localDate);
+			
 		} catch (Exception e) {
 			printErr(e);
 		}
@@ -261,8 +255,7 @@ public class Model {
 			pt.setString(3, user.getEmail());
 			pt.setString(4, user.getLogin());
 			pt.setString(5, MD5.crypt(user.getPassword()));
-			pt.setDate(6, Date.valueOf(user.getDateNaiss()));
-			pt.setInt(7, user.getId());
+			pt.setLong(7, user.getId());
 		} catch (Exception e) {
 			printErr(e);
 		}
