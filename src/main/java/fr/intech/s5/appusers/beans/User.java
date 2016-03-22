@@ -14,7 +14,7 @@ import javax.persistence.TemporalType;
 public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
+	private long UserId;
 	private String nom;
 	private String prenom;
 	private String email;
@@ -25,7 +25,7 @@ public class User {
 	 * Constructeur par defaut
 	 */
 	public User(){
-		this.id = 0;
+		this.UserId = 0;
 		this.nom = "";
 		this.prenom = "";
 		this.email = "";
@@ -52,14 +52,14 @@ public class User {
 	 * @return the id
 	 */
 	public long getId() {
-		return id;
+		return UserId;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
 	public void setId(long id) {
-		this.id = id;
+		this.UserId = id;
 	}
 
 	/**

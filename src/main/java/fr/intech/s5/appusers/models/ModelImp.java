@@ -16,14 +16,12 @@ import fr.intech.s5.appusers.beans.Telephone;
 import fr.intech.s5.appusers.beans.User;
 
 public class ModelImp implements IModel{
+	private final EntityManager em;
 	
-	private EntityManager entityManager ()
-	{
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("appuser");
-		EntityManager em = emf.createEntityManager();
-		
-		return em;
+	public ModelImp(EntityManager em) {
+		this.em = em;
 	}
+
 	@Override
 	public boolean addUser(User user) {
 		// TODO Auto-generated method stub
@@ -51,13 +49,22 @@ public class ModelImp implements IModel{
 
 	@Override
 	public boolean deleteUser(User user) {
-		// TODO Auto-generated method stub
+		
+		
 		return false;
 	}
 
 	@Override
 	public boolean deleteTelephone(Telephone telephone) {
-		// TODO Auto-generated method stub
+		
+		Telephone tel =  selectTelephone(telephone.getId());
+		if(tel != null)
+		{
+			em.getTransaction().begin();
+			em.remove(tel);
+			em.getTransaction().commit();
+			return true;
+		}
 		return false;
 	}
 	/**
@@ -68,12 +75,10 @@ public class ModelImp implements IModel{
 	@Override
 	public Collection<User> selectAllUser() {
 			
-		EntityManager em = entityManager();
-		em.getTransaction().begin();
 
-		javax.persistence.Query query = em.createQuery("SELECT * FROM User");
+		javax.persistence.Query query = em.createQuery("SELECT u FROM User u");
 		
-		return query.getResultList();
+		return (Collection<User>) query.getResultList();
 	}
 	/**
 	 * Select User by id
@@ -82,9 +87,9 @@ public class ModelImp implements IModel{
 	 * @return 
 	 */
 	@Override
-	public User selectUserById(int id) {
+	public User selectUserById(long id) {
 		
-		return null;
+		return em.find(User.class, id);
 		
 	}
 	/**
@@ -93,15 +98,17 @@ public class ModelImp implements IModel{
 	 * @return
 	 */
 	@Override
-	public Telephone selectTelephone(int id) {
+	public Telephone selectTelephone(long id) {
 		
-		return null;
+		return em.find(Telephone.class, id);
 	}
 
 	@Override
 	public User selectUserByLoginAndPassword(String login, String password) {
 		
-		return null;
+		javax.persistence.Query query = em.createQuery("SELECT u FROM User u WHERE u.login = ?1 AND u.password = ?2", User.class);
+		
+		return (User) query.setParameter(1, login).setParameter(2, password).getSingleResult();
 	}
 	
 }

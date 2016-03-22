@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Telephone {
@@ -17,6 +19,10 @@ public class Telephone {
 	
 	private String TelPortable;
 	
+	@OneToOne
+	@JoinColumn(name = "UserId")
+	private User UserID;
+	
 	public Telephone() 
 	{
 		
@@ -27,9 +33,10 @@ public class Telephone {
 	 * @param telFix
 	 * @param telPortable
 	 */
-	public Telephone(String telFix, String telPortable) {
+	public Telephone(String telFix, String telPortable, User user) {
 		TelFix = telFix;
 		TelPortable = telPortable;
+		UserID = user;
 	}
 
 	/**

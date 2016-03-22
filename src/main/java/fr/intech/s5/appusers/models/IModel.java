@@ -21,10 +21,10 @@ public interface IModel {
 	
 	public Collection<User> selectAllUser();
 	
-	public User selectUserById(int id);
+	public User selectUserById(long id);
 	
 	public User selectUserByLoginAndPassword(String login, String password);
 	
-	public Telephone selectTelephone(int id);
+	public Telephone selectTelephone(long id);
 		
 }
