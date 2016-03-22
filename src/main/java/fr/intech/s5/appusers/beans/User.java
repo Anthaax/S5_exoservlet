@@ -1,15 +1,9 @@
 package fr.intech.s5.appusers.beans;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 @Entity
 public class User {
 	@Id
@@ -30,7 +24,6 @@ public class User {
 		this.prenom = "";
 		this.email = "";
 		this.login = "";
-		this.password = "";
 	}
 	/**
 	 * @param nom

@@ -58,7 +58,7 @@ public class ModelImpTest {
 	}
 	
 	@Test
-	public void selectUserByID()
+	public void selectUserByIDTest()
 	{
 		IModel model = new ModelImp(em);
 		
@@ -67,12 +67,12 @@ public class ModelImpTest {
 	}
 	
 	@Test
-	public void selectTelephoneByID()
+	public void selectTelephoneByUserIDTest()
 	{
 		IModel model = new ModelImp(em);
 		
-		Telephone telephone = model.selectTelephone(2);
-		assertEquals(2, telephone.getId());
+		Telephone telephone = model.selectTelephone(1);
+		assertEquals(1, telephone.getUserID().getId());
 	}
 	
 	@Test
@@ -89,12 +89,14 @@ public class ModelImpTest {
 	{
 		IModel model = new ModelImp(em);
 		
-		Telephone telephone = model.selectTelephone(2);		
+		Telephone telephone = model.selectTelephone(1);		
 		assertEquals(true, model.deleteTelephone(telephone));
 		
 		em.getTransaction().begin();
 		
-		em.persist(telephone);
+		Telephone tel = new Telephone(telephone.getTelFix(), telephone.getTelPortable(), telephone.getUserID());
+		
+		em.persist(tel);
 		
 		em.getTransaction().commit();
 		

@@ -1,16 +1,8 @@
 package fr.intech.s5.appusers.models;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import fr.intech.s5.appusers.beans.Telephone;
 import fr.intech.s5.appusers.beans.User;
@@ -57,7 +49,7 @@ public class ModelImp implements IModel{
 	@Override
 	public boolean deleteTelephone(Telephone telephone) {
 		
-		Telephone tel =  selectTelephone(telephone.getId());
+		Telephone tel =  selectTelephone(telephone.getUserID().getId());
 		if(tel != null)
 		{
 			em.getTransaction().begin();
@@ -100,7 +92,9 @@ public class ModelImp implements IModel{
 	@Override
 	public Telephone selectTelephone(long id) {
 		
-		return em.find(Telephone.class, id);
+		javax.persistence.Query query = em.createQuery("SELECT t FROM Telephone t WHERE t.UserID.UserId = ?1", Telephone.class);
+		
+		return (Telephone) query.setParameter(1, id).getSingleResult();
 	}
 
 	@Override

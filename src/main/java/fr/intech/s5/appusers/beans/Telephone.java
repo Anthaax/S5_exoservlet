@@ -15,9 +15,9 @@ public class Telephone {
 	private long id;
 	
 	
-	private String TelFix;
+	private String telFix;
 	
-	private String TelPortable;
+	private String telPortable;
 	
 	@OneToOne
 	@JoinColumn(name = "UserId")
@@ -34,8 +34,8 @@ public class Telephone {
 	 * @param telPortable
 	 */
 	public Telephone(String telFix, String telPortable, User user) {
-		TelFix = telFix;
-		TelPortable = telPortable;
+		this.telFix = telFix;
+		this.telPortable = telPortable;
 		UserID = user;
 	}
 
@@ -57,29 +57,41 @@ public class Telephone {
 	 * @return the telFix
 	 */
 	public String getTelFix() {
-		return TelFix;
+		return telFix;
 	}
 
 	/**
 	 * @param telFix the telFix to set
 	 */
 	public void setTelFix(String telFix) {
-		TelFix = telFix;
+		this.telFix = telFix;
 	}
 
 	/**
 	 * @return the telPortable
 	 */
 	public String getTelPortable() {
-		return TelPortable;
+		return telPortable;
 	}
 
 	/**
 	 * @param telPortable the telPortable to set
 	 */
 	public void setTelPortable(String telPortable) {
-		TelPortable = telPortable;
+		this.telPortable = telPortable;
 	}
-	
+	/**
+	 * @return the userID
+	 */
+	public User getUserID() {
+		return UserID;
+	}
+
+	/**
+	 * @param userID the userID to set
+	 */
+	public void setUserID(User userID) {
+		UserID = userID;
+	}
 	
 }

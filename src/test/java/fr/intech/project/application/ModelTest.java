@@ -78,7 +78,6 @@ public class ModelTest {
 	@Test
 	public void getAllUsersTest()
 	{
-		int id = 1;
 		String nom = "PEUCH";
 		String prenom = "Guillaume";
 		String email = "gp@gmail.com";
@@ -106,7 +105,6 @@ public class ModelTest {
 	@Test
 	public void deleteUserTest()
 	{
-		int id = 2;
 		String nom = "Fimes";
 		String prenom = "Guillaume";
 		String email = "fg@gmail.com";

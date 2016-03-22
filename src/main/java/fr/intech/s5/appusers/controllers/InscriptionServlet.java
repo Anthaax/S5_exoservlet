@@ -1,9 +1,6 @@
 package fr.intech.s5.appusers.controllers;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,7 +44,6 @@ public class InscriptionServlet extends HttpServlet {
 		
 		String nom = request.getParameter("nom");
 		String prenom = request.getParameter("prenom");
-		String dateNaiss = request.getParameter("dateNaiss");
 		String email = request.getParameter("email");
 		String login = request.getParameter("login");
 		String password = request.getParameter("password");
