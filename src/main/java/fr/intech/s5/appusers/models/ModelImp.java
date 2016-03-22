@@ -19,7 +19,7 @@ public class ModelImp implements IModel{
 	
 	private EntityManager entityManager ()
 	{
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("emarket");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("appuser");
 		EntityManager em = emf.createEntityManager();
 		
 		return em;
@@ -73,7 +73,7 @@ public class ModelImp implements IModel{
 
 		javax.persistence.Query query = em.createQuery("SELECT * FROM User");
 		
-		return (Collection<User>) query.getResultList();
+		return query.getResultList();
 	}
 	/**
 	 * Select User by id

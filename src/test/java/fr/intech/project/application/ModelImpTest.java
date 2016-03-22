@@ -22,20 +22,20 @@ public class ModelImpTest {
 	@BeforeClass
 	public static void init() {
 		
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("emarket");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("appuser");
 		EntityManager em = emf.createEntityManager();
-		
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
 		String nom = "NSENGUET TOSSAM";
 		String prenom = "Joris";
 		String email = "nsenguetjoris@gmail.com";
 		String login = "deviok";
 		String password = "toto";
-		User user = new User(nom, prenom, email, login, password);
+		EntityTransaction et = em.getTransaction();
+		et.begin();
 		
-		em.persist(user);
+		
+		User user4 = new User(nom, prenom, email, login, password);
+		
+		em.persist(user4);
 				
 		et.commit();
 		
@@ -46,10 +46,10 @@ public class ModelImpTest {
 	@Test
 	public void selectAllUser()
 	{
-		IModel model = new ModelImp();
+		/*IModel model = new ModelImp();
 		
 		Collection<User> user = model.selectAllUser();
-		assertEquals(1,user.size());
+		assertEquals(1,user.size());*/
 
 	}
 }

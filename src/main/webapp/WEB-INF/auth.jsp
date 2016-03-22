@@ -31,7 +31,7 @@
 				<div class="form-group">
 					<label class="col-md-2 col-md-offset-2 control-label" for="dateNaiss">Date Naiss.* :</label>
 					<div class="col-md-5">
-						<input type="text" disabled class="form-control" id="dateNaiss" name="dateNaiss" value="<%out.print(user.getDateNaiss().toString()); %>" required>
+						<input type="text" disabled class="form-control" id="dateNaiss" name="dateNaiss" value="<%out.print();%>" required>
 					</div>
 				</div>
 				<div class="form-group">
