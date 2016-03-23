@@ -7,9 +7,7 @@ import fr.intech.s5.appusers.beans.User;
 
 public interface IModel {
 	
-	public boolean addUser(User user);
-	
-	public boolean addTelephone(Telephone telephone);
+	public boolean addUserAndTelephone(User user, Telephone telephone);
 	
 	public boolean modifyUser(User user);
 	
