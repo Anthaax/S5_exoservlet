@@ -101,6 +101,29 @@ public class ModelImpTest {
 		em.getTransaction().commit();
 		
 	}
+	@Test
+	public void deleteUserTest()
+	{
+		IModel model = new ModelImp(em);
+		
+		User user = model.selectUserById(1);
+		Telephone telephone = model.selectTelephone(1);
+		assertEquals(true, model.deleteUser(user));
+		
+		/*em.getTransaction().begin();
+		User u = new User(user.getNom(),user.getPrenom(), user.getEmail(), user.getLogin(), user.getPassword());
+		Telephone tel = new Telephone(telephone.getTelFix(), telephone.getTelPortable(), telephone.getUserID());
+		
+		em.persist(u);
+		
+		em.getTransaction().commit();
+		
+		em.getTransaction().begin();
+		
+		em.persist(tel);
+		
+		em.getTransaction().commit();*/
+	}
 	
 	@AfterClass
 	public static void CloseConnection()

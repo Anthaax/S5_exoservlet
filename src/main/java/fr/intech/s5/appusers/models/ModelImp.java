@@ -53,7 +53,17 @@ public class ModelImp implements IModel{
 	@Override
 	public boolean deleteUser(User user) {
 		
+		Telephone tel =  selectTelephone(user.getId());
+		deleteTelephone(tel);
 		
+		User u = selectUserById(user.getId());
+		if(u != null)
+		{
+			em.getTransaction().begin();
+			em.remove(u);
+			em.getTransaction().commit();
+			return true;
+		}
 		return false;
 	}
 
