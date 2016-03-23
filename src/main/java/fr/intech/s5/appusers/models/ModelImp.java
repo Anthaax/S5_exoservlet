@@ -29,7 +29,7 @@ public class ModelImp implements IModel{
 
 	@Override
 	public boolean modifyUser(User newUser) {
-		User user = em.find(User.class, 1);
+		User user = em.find(User.class, newUser.getId());
 		  em.getTransaction().begin();
 		  user.setNom(newUser.getNom());
 		  user.setPrenom(newUser.getPrenom());
@@ -42,7 +42,7 @@ public class ModelImp implements IModel{
 
 	@Override
 	public boolean modifyTelephone(Telephone newTelephone) {
-		Telephone tel = em.find(Telephone.class, 1);
+		Telephone tel = em.find(Telephone.class, newTelephone.getId());
 		  em.getTransaction().begin();
 		  tel.setTelFix(newTelephone.getTelFix());
 		  tel.setTelPortable(newTelephone.getTelPortable());
