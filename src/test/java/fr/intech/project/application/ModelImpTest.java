@@ -47,7 +47,24 @@ public class ModelImpTest {
 				
 		et.commit();	
 	}
-	
+	@Test
+	public void modifyUserTest(){
+		IModel model = new ModelImp(em);
+		User user=model.selectUserById(1);
+		user.setNom("nouveauJoris");
+		model.modifyUser(user);
+		User user2=model.selectUserById(1);
+		assertEquals("nouveauJoris",user2.getNom());
+	}
+	@Test
+	public void modifyTelephoneTest(){
+		IModel model = new ModelImp(em);
+		Telephone tel=model.selectTelephone(1);
+		tel.setTelPortable("0101010101");
+		model.modifyTelephone(tel);
+		Telephone tel2=model.selectTelephone(1);
+		assertEquals("0101010101",tel2.getTelPortable());
+	}
 	@Test
 	public void selectAllUser()
 	{
