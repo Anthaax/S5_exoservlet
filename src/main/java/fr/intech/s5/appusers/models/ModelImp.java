@@ -49,7 +49,12 @@ public class ModelImp implements IModel{
 		  em.getTransaction().commit();
 		  return true;
 	}
-
+	/**
+	 * Supprime un utilisateur et son telephone de la base de donnée
+	 * Autor : Guillaume
+	 * @param user user to delete
+	 * @return true si le user a été supprimé
+	 */
 	@Override
 	public boolean deleteUser(User user) {
 		
@@ -66,7 +71,12 @@ public class ModelImp implements IModel{
 		}
 		return false;
 	}
-
+	/**
+	 * Supprime un telephone de la base de donnée 
+	 * Autor : Guillaume
+	 * @param telephone	Telephone à supprimer
+	 * @return true si telephone a été supprimé
+	 */
 	@Override
 	public boolean deleteTelephone(Telephone telephone) {
 		
@@ -81,9 +91,9 @@ public class ModelImp implements IModel{
 		return false;
 	}
 	/**
-	 * Select all Users from database
+	 * Selectionne tous les users
 	 * Autor : Guillaume
-	 * @return List<User>
+	 * @return List<User> une list contenant tous les users
 	 */
 	@Override
 	public Collection<User> selectAllUser() {
@@ -96,7 +106,7 @@ public class ModelImp implements IModel{
 	/**
 	 * Select User by id
 	 * Autor : Guillaume
-	 * @param id id of the user to select
+	 * @param id id de l'user à selectioner
 	 * @return 
 	 */
 	@Override
@@ -106,9 +116,10 @@ public class ModelImp implements IModel{
 		
 	}
 	/**
-	 * Se
-	 * @param id
-	 * @return
+	 * Select Telephone with UserID
+	 * Auteur : Guillaume
+	 * @param id UserID
+	 * @return Le telephone de l'user
 	 */
 	@Override
 	public Telephone selectTelephone(long id) {
@@ -117,7 +128,13 @@ public class ModelImp implements IModel{
 		
 		return (Telephone) query.setParameter(1, id).getSingleResult();
 	}
-
+	/**
+	 * Select user by login and password
+	 * Auteur : Guillaume
+	 * @param login Login of the user
+	 * @param password password of the user
+	 * @return Return the user
+	 */
 	@Override
 	public User selectUserByLoginAndPassword(String login, String password) {
 		
