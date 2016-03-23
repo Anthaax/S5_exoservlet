@@ -17,6 +17,7 @@ import fr.intech.s5.appusers.beans.Telephone;
 import fr.intech.s5.appusers.beans.User;
 import fr.intech.s5.appusers.models.IModel;
 import fr.intech.s5.appusers.models.ModelImp;
+import junit.framework.Assert;
 
 public class ModelImpTest {
 	private static EntityManagerFactory emf;
@@ -47,23 +48,30 @@ public class ModelImpTest {
 				
 		et.commit();	
 	}
+	//Autor : Clement
 	@Test
-	public void modifyUserTest(){
+	public void addUserAndTelephoneTest()
+	{
 		IModel model = new ModelImp(em);
-		User user=model.selectUserById(1);
-		user.setNom("nouveauJoris");
-		model.modifyUser(user);
-		User user2=model.selectUserById(1);
-		assertEquals("nouveauJoris",user2.getNom());
-	}
-	@Test
-	public void modifyTelephoneTest(){
-		IModel model = new ModelImp(em);
-		Telephone tel=model.selectTelephone(1);
-		tel.setTelPortable("0101010101");
-		model.modifyTelephone(tel);
-		Telephone tel2=model.selectTelephone(1);
-		assertEquals("0101010101",tel2.getTelPortable());
+		String nom = "Rousseau";
+		String prenom = "Clement";
+		String email = "crousseau@gmail.com";
+		String login = "synouk";
+		String password = "puglife";
+		
+		String telfix = "0662147351";
+		String telPortable = "0698280837";
+		
+		User user4 = new User(nom, prenom, email, login, password);
+		Telephone tel = new Telephone(telfix, telPortable, user4);
+		model.addUserAndTelephone(user4, tel);
+		
+		User u = model.selectUserByLoginAndPassword(login, password);
+		Telephone t = model.selectTelephone(u.getId());
+		
+		assertEquals("Clement", u.getPrenom());
+		assertEquals("Rousseau", u.getNom());
+		assertEquals("0698280837", t.getTelPortable());
 	}
 	@Test
 	public void selectAllUser()
@@ -71,7 +79,7 @@ public class ModelImpTest {
 		IModel model = new ModelImp(em);
 		
 		Collection<User> user = model.selectAllUser();
-		assertEquals(1,user.size());
+		assertEquals(2,user.size());
 	}
 	
 	@Test
