@@ -3,6 +3,7 @@ package fr.intech.s5.appusers.models;
 import java.util.Collection;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import fr.intech.s5.appusers.beans.Telephone;
 import fr.intech.s5.appusers.beans.User;
@@ -14,22 +15,32 @@ public class ModelImp implements IModel{
 		this.em = em;
 	}
 
+	/**
+	 * Add a user and the associate telephone
+	 * Autor : Clement
+	 * @return boolean
+	 */
 	@Override
-	public boolean addUser(User user) {
-		// TODO Auto-generated method stub
+	public boolean addUserAndTelephone(User user,Telephone telephone) {
+		EntityTransaction et = em.getTransaction();	
+		et.begin();
+				
+		User userC = new User(user.getNom(), user.getPrenom(), user.getEmail(), user.getLogin(), user.getPassword());
+		Telephone tel = new Telephone(telephone.getTelFix(),telephone.getTelPortable(), userC);
 		
-		return false;
+		em.persist(userC);
+		em.persist(tel);
+				
+		et.commit();
+		
+		return true;
 	}
 
-	@Override
-	public boolean addTelephone(Telephone telephone) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 	@Override
 	public boolean modifyUser(User newUser) {
-		User user = em.find(User.class, 1);
+		User user = em.find(User.class, newUser.getId());
 		  em.getTransaction().begin();
 		  user.setNom(newUser.getNom());
 		  user.setPrenom(newUser.getPrenom());
@@ -42,7 +53,7 @@ public class ModelImp implements IModel{
 
 	@Override
 	public boolean modifyTelephone(Telephone newTelephone) {
-		Telephone tel = em.find(Telephone.class, 1);
+		Telephone tel = em.find(Telephone.class, newTelephone.getId());
 		  em.getTransaction().begin();
 		  tel.setTelFix(newTelephone.getTelFix());
 		  tel.setTelPortable(newTelephone.getTelPortable());
