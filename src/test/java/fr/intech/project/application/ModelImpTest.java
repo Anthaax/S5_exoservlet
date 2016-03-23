@@ -73,6 +73,7 @@ public class ModelImpTest {
 		assertEquals("Rousseau", u.getNom());
 		assertEquals("0698280837", t.getTelPortable());
 	}
+	//Autor : Guillaume
 	@Test
 	public void selectAllUser()
 	{
@@ -81,7 +82,7 @@ public class ModelImpTest {
 		Collection<User> user = model.selectAllUser();
 		assertEquals(2,user.size());
 	}
-	
+	//Autor : Guillaume
 	@Test
 	public void selectUserByIDTest()
 	{
@@ -90,7 +91,7 @@ public class ModelImpTest {
 		User user = model.selectUserById(1);
 		assertEquals("Joris", user.getPrenom());
 	}
-	
+	//Autor : Guillaume
 	@Test
 	public void selectTelephoneByUserIDTest()
 	{
@@ -99,7 +100,7 @@ public class ModelImpTest {
 		Telephone telephone = model.selectTelephone(1);
 		assertEquals(1, telephone.getUserID().getId());
 	}
-	
+	//Autor : Guillaume
 	@Test
 	public void selectUserByLoginAndPassword()
 	{
@@ -108,7 +109,7 @@ public class ModelImpTest {
 		User user = model.selectUserByLoginAndPassword("deviok", "toto");
 		assertEquals("Joris", user.getPrenom());
 	}
-	
+	//Autor : Guillaume
 	@Test
 	public void deleteTelephoneTest()
 	{
@@ -126,6 +127,7 @@ public class ModelImpTest {
 		em.getTransaction().commit();
 		
 	}
+	//Autor : Guillaume
 	@Test
 	public void deleteUserTest()
 	{
@@ -135,20 +137,43 @@ public class ModelImpTest {
 		Telephone telephone = model.selectTelephone(1);
 		assertEquals(true, model.deleteUser(user));
 		
-		/*em.getTransaction().begin();
 		User u = new User(user.getNom(),user.getPrenom(), user.getEmail(), user.getLogin(), user.getPassword());
 		Telephone tel = new Telephone(telephone.getTelFix(), telephone.getTelPortable(), telephone.getUserID());
 		
-		em.persist(u);
+		model.addUserAndTelephone(u, tel);
+		User joris = model.selectUserByLoginAndPassword(u.getLogin(), u.getPassword());
+		assertEquals(u.getEmail(), joris.getEmail());
 		
-		em.getTransaction().commit();
-		
-		em.getTransaction().begin();
-		
-		em.persist(tel);
-		
-		em.getTransaction().commit();*/
 	}
+	//Auteur Lucas
+	@Test
+	public void modifyUserTest()
+	{
+		IModel model = new ModelImp(em);
+		
+		User user = model.selectUserById(1);
+		user.setLogin("login");
+		model.modifyUser(user);
+		User u = model.selectUserById(1);
+		assertEquals("login", u.getLogin());
+		user.setLogin("deviok");
+		model.modifyUser(user);
+		
+		
+	}
+	
+	//Auteur Lucas
+		@Test
+		public void modifyTelephoneTest()
+		{
+			IModel model = new ModelImp(em);
+			
+			Telephone user = model.selectTelephone(1);
+			user.setTelFix("login");
+			model.modifyTelephone(user);
+			Telephone u = model.selectTelephone(1);
+			assertEquals("login", u.getTelFix());
+		}
 	
 	@AfterClass
 	public static void CloseConnection()
