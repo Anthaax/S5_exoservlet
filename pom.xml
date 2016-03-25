@@ -31,7 +31,21 @@
 					<include>bdd.sql</include>
 				</includes>
 			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
 		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>**/fit/**</exclude>
+					<exclude>**/reports/**</exclude>
+				</excludes>
+			</testResource>
+		</testResources>
 	</build>
 	<dependencies>
 		<dependency>
