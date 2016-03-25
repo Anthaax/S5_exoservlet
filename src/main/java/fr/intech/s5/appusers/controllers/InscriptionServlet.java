@@ -6,8 +6,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import fr.intech.s5.appusers.beans.Telephone;
 import fr.intech.s5.appusers.beans.User;
+import fr.intech.s5.appusers.models.IModel;
 import fr.intech.s5.appusers.models.Model;
+import fr.intech.s5.appusers.services.ConH;
 
 /**
  * Servlet implementation class InscriptionServlet
@@ -15,12 +19,13 @@ import fr.intech.s5.appusers.models.Model;
 @WebServlet(name="InscriptionServlet", urlPatterns = "/inscription")
 public class InscriptionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private IModel model;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public InscriptionServlet() {
         super();
+       
     }
 
 	/**
@@ -42,11 +47,16 @@ public class InscriptionServlet extends HttpServlet {
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+    	 model = ConH.getModel();
+    	 
 		String nom = request.getParameter("nom");
 		String prenom = request.getParameter("prenom");
 		String email = request.getParameter("email");
 		String login = request.getParameter("login");
 		String password = request.getParameter("password");
+		
+		String telFix = request.getParameter("telfix");
+		String telport = request.getParameter("telport");
 		
 		
 		User user = new User();
@@ -56,7 +66,11 @@ public class InscriptionServlet extends HttpServlet {
 		user.setLogin(login);
 		user.setPassword(password);
 		
-		if(Model.addUser(user))
+		Telephone tel = new Telephone();
+		tel.setTelFix(telFix);
+		tel.setTelPortable(telport);
+		
+		if(model.addUserAndTelephone(user, tel))
 		{
 			request.setAttribute("message", "Vous avez été bien inscrit.");
 		}

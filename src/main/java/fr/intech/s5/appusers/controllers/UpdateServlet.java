@@ -1,13 +1,11 @@
 package fr.intech.s5.appusers.controllers;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import fr.intech.s5.appusers.beans.Telephone;
 import fr.intech.s5.appusers.beans.User;
@@ -16,16 +14,16 @@ import fr.intech.s5.appusers.models.Model;
 import fr.intech.s5.appusers.services.ConH;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class AuthServlet
  */
-@WebServlet(name="LoginServlet", urlPatterns = "/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet(name="UpdateServlet", urlPatterns = "/update")
+public class UpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private IModel model;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public UpdateServlet() {
         super();
     }
 
@@ -34,15 +32,12 @@ public class LoginServlet extends HttpServlet {
 	 */
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String errorMsg = "";
-		request.setAttribute("message", errorMsg);
-		try {
-			request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+    	try {
+    		request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+    			
 		} catch (Exception e) {
 			Model.printErr(e);
 		}
-		
-		
 	}
 
 	/**
@@ -50,32 +45,39 @@ public class LoginServlet extends HttpServlet {
 	 */
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
     	model = ConH.getModel();
-    	
-		String pseudo = request.getParameter("pseudo");
-		String password = request.getParameter("password");
+      	 
+		String nom = request.getParameter("nom");
+		String prenom = request.getParameter("prenom");
+		String email = request.getParameter("email");
+		String login = request.getParameter("login");
 		
-		HttpSession session = request.getSession();
+		String telFix = request.getParameter("telfix");
+		String telport = request.getParameter("telport");
+		
+		User user = (User)request.getSession().getAttribute("usersession");
+		user.setNom(nom);
+		user.setPrenom(prenom);
+		user.setEmail(email);
+		user.setLogin(login);
+		
+		Telephone tel = (Telephone)request.getSession().getAttribute("telsession");
+		tel.setTelFix(telFix);
+		tel.setTelPortable(telport);
 		
 		try {
-			if(model.selectUserByLoginAndPassword(pseudo, password) != null)
+			if(model.modifyUser(user) && model.modifyTelephone(tel))
 			{
-				User user = model.selectUserByLoginAndPassword(pseudo, password);
-				Telephone tel = model.selectTelephone(user.getId());
-				session.setAttribute("usersession", user);
-				session.setAttribute("telsession", tel);
-				request.getRequestDispatcher("/WEB-INF/auth.jsp").forward(request, response);
+				request.setAttribute("message", "La mise à jour s'est bien déroulée.");
 			}
 			else
-			{
-				String errorMsg = "Pseudonyme ou mot de passe erroné.";
-				request.setAttribute("message", errorMsg);
-				request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-			}
+				request.setAttribute("message", "Echec lors de la mise à jour.");
+			
+			request.getRequestDispatcher("/WEB-INF/updateResult.jsp").forward(request, response);
 		} catch (Exception e) {
 			Model.printErr(e);
 		}
+    	
 	}
 
 }

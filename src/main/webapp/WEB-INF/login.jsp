@@ -9,6 +9,7 @@
 	<div class="container">
 		<h1>Connexion</h1>
 		<hr>
+		<%if(user == null) {%>
 		<form class="form-signin" action="login" method="POST">
 			<h2 class="form-signin-heading">Connectez vous...</h2>
 			<label for="pseudo" class="sr-only">Pseudo</label> <input type="text" id="pseudo" class="form-control" name = "pseudo" placeholder="Pseudo" required autofocus> <label
@@ -24,8 +25,11 @@
 			<br>
 			<p><a href="inscription">S'inscrire ?</a></p>
 		</form>
+		<%} else{ %>
+		<h2 class="form-signin-heading">Vous actuellement connecté(e).</h2>
+		<%} %>
 		<br>
-		<p id="msgErrorLogin"><% out.println(request.getAttribute("message")); %></p>
+		<p id="msgErrorLogin"><% if(request.getAttribute("message") != null) out.println(request.getAttribute("message")); %></p>
 	</div>
 	<!-- /.container -->
 	<%@ include file="loadScript.jsp"%>

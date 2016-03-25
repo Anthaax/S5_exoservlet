@@ -6,22 +6,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import fr.intech.s5.appusers.beans.User;
-import fr.intech.s5.appusers.models.IModel;
 import fr.intech.s5.appusers.models.Model;
-import fr.intech.s5.appusers.services.ConH;
-
 /**
- * Servlet implementation class AuthServlet
+ * Servlet implementation class InscriptionServlet
  */
-@WebServlet(name="AuthServlet", urlPatterns = "/auth")
-public class AuthServlet extends HttpServlet {
+@WebServlet(name="UpdateResultServlet", urlPatterns = "/updateresult")
+public class UpdateResultServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AuthServlet() {
+    public UpdateResultServlet() {
         super();
+       
     }
 
 	/**
@@ -29,20 +26,17 @@ public class AuthServlet extends HttpServlet {
 	 */
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User user = (User)request.getSession().getAttribute("usersession");
-		
+    	String message = (String) request.getAttribute("message");
 		try {
-			if(user == null)
+			if(message == null)
 			{
-				request.setAttribute("message", "");
 				request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
 			}
 			else
-				request.getRequestDispatcher("/WEB-INF/auth.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/updateResult.jsp").forward(request, response);
 		} catch (Exception e) {
 			Model.printErr(e);
 		}
-		
 	}
 
 	/**
@@ -50,7 +44,8 @@ public class AuthServlet extends HttpServlet {
 	 */
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
+		
+    	try {
 			doGet(request, response);
 		} catch (Exception e) {
 			Model.printErr(e);

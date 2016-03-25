@@ -12,16 +12,16 @@
             <property name="hibernate.format_sql" value="true" />
  
             <!-- Configuration de la BDD -->
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/emarket" />
-            <property name="javax.persistence.jdbc.user" value="root" />
+            <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:file:emarket" />
+            <property name="javax.persistence.jdbc.user" value="sa" />
             <property name="javax.persistence.jdbc.password" value="" />
  
             <!-- Spécifie le 'dialecte' SQL utilisé pour communiquer avec la BDD -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+            <!-- <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /> -->
  
             <!-- Indique a Hibernate de (re-)créer la BDD au lancement de l'application -->
-            <property name="hibernate.hbm2ddl.auto" value="create" />
+            <!-- <property name="hibernate.hbm2ddl.auto" value="create" /> -->
         </properties>
  
     </persistence-unit>

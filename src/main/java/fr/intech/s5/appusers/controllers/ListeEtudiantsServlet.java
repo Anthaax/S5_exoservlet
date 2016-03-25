@@ -1,6 +1,8 @@
 package fr.intech.s5.appusers.controllers;
 
 import java.io.IOException;
+import java.util.Collection;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,16 +14,18 @@ import fr.intech.s5.appusers.models.Model;
 import fr.intech.s5.appusers.services.ConH;
 
 /**
- * Servlet implementation class AuthServlet
+ * Servlet implementation class InscriptionServlet
  */
-@WebServlet(name="AuthServlet", urlPatterns = "/auth")
-public class AuthServlet extends HttpServlet {
+@WebServlet(name="ListeEtudiantsServlet", urlPatterns = "/etudiants")
+public class ListeEtudiantsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private IModel model;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AuthServlet() {
+    public ListeEtudiantsServlet() {
         super();
+       
     }
 
 	/**
@@ -29,29 +33,14 @@ public class AuthServlet extends HttpServlet {
 	 */
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User user = (User)request.getSession().getAttribute("usersession");
 		
-		try {
-			if(user == null)
-			{
-				request.setAttribute("message", "");
-				request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-			}
-			else
-				request.getRequestDispatcher("/WEB-INF/auth.jsp").forward(request, response);
-		} catch (Exception e) {
-			Model.printErr(e);
-		}
-		
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-    @Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			doGet(request, response);
+    	model = ConH.getModel();
+    	
+    	Collection<User> users = model.selectAllUser();
+    	request.setAttribute("users", users);
+    	
+    	try {
+			request.getRequestDispatcher("/WEB-INF/etudiants.jsp").forward(request, response);
 		} catch (Exception e) {
 			Model.printErr(e);
 		}

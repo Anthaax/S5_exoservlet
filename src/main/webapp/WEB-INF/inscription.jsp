@@ -25,15 +25,21 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-2 col-md-offset-2 control-label" for="dateNaiss">Date Naiss.* :</label>
-					<div class="col-md-5">
-						<input type="date" class="form-control" id="dateNaiss" name="dateNaiss" required>
-					</div>
-				</div>
-				<div class="form-group">
 					<label class="col-md-2 col-md-offset-2 control-label" for="email">Email* :</label>
 					<div class="col-md-5">
 						<input type="email" class="form-control" id="email" name="email" placeholder="Adresse email" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 col-md-offset-2 control-label" for="telport">Tel. Portable* :</label>
+					<div class="col-md-5">
+						<input type="text" class="form-control" id="telport" name="telport" placeholder="Téléphone Portable" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 col-md-offset-2 control-label" for="telfix">Tel. Fixe :</label>
+					<div class="col-md-5">
+						<input type="text" class="form-control" id="telfix" name="telfix" placeholder="Téléphone fixe">
 					</div>
 				</div>
 				<div class="form-group">
