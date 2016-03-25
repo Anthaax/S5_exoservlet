@@ -1,3 +1,5 @@
+<!-- Auteur Nicolas -->
+
 <!DOCTYPE html>
 <%@page import="fr.intech.s5.appusers.beans.User"%>
 <html lang="en">

@@ -13,6 +13,11 @@ import fr.intech.s5.appusers.models.Model;
 /**
  * Servlet implementation class AuthServlet
  */
+/**
+ * 
+ * @author Joris
+ *
+ */
 @WebServlet(name="DeconnexionServlet", urlPatterns = "/deconnexion")
 public class DeconnexionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

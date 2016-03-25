@@ -17,7 +17,7 @@ import fr.intech.s5.appusers.beans.Telephone;
 import fr.intech.s5.appusers.beans.User;
 import fr.intech.s5.appusers.models.IModel;
 import fr.intech.s5.appusers.models.ModelImp;
-import junit.framework.Assert;
+import fr.intech.s5.appusers.services.MD5;
 
 public class ModelImpTest {
 	private static EntityManagerFactory emf;
@@ -40,12 +40,12 @@ public class ModelImpTest {
 		et.begin();
 		
 		
-		User user4 = new User(nom, prenom, email, login, password);
+		User user4 = new User(nom, prenom, email, login, MD5.crypt(password));
 		Telephone tel = new Telephone(telfix, telPortable, user4);
 		
 		em.persist(user4);
 		em.persist(tel);
-				
+
 		et.commit();	
 	}
 	//Autor : Clement
@@ -102,11 +102,12 @@ public class ModelImpTest {
 	}
 	//Autor : Guillaume
 	@Test
-	public void selectUserByLoginAndPassword()
+	public void selectUserByLoginAndPasswordTest()
 	{
 		IModel model = new ModelImp(em);
 		
 		User user = model.selectUserByLoginAndPassword("deviok", "toto");
+		
 		assertEquals("Joris", user.getPrenom());
 	}
 	//Autor : Guillaume

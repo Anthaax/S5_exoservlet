@@ -1,11 +1,10 @@
 package fr.intech.s5.appusers.models;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
-
 import fr.intech.s5.appusers.beans.Telephone;
 import fr.intech.s5.appusers.beans.User;
 import fr.intech.s5.appusers.services.MD5;
@@ -109,13 +108,13 @@ public class ModelImp implements IModel{
 	 */
 	@Override
 	public Collection<User> selectAllUser() {
-			
-
+		
 		javax.persistence.Query query = em.createQuery("SELECT u FROM User u");
 		try {
 			return (Collection<User>) query.getResultList();
-		} catch (NoResultException e) {
-			return null;
+		} catch (Exception e) {
+			Model.printErr(e);
+			return Collections.emptyList();
 		}
 		
 	}
@@ -130,7 +129,8 @@ public class ModelImp implements IModel{
 		
 		try {
 			return em.find(User.class, id);
-		} catch (NoResultException e) {
+		} catch (Exception e) {
+			Model.printErr(e);
 			return null;
 		}
 		
@@ -147,7 +147,8 @@ public class ModelImp implements IModel{
 		javax.persistence.Query query = em.createQuery("SELECT t FROM Telephone t WHERE t.UserID.UserId = ?1", Telephone.class);
 		try {
 			return (Telephone) query.setParameter(1, id).getSingleResult();
-		} catch (NoResultException e) {
+		} catch (Exception e) {
+			Model.printErr(e);
 			return null;
 		}
 		
@@ -165,7 +166,8 @@ public class ModelImp implements IModel{
 		javax.persistence.Query query = em.createQuery("SELECT u FROM User u WHERE u.login = ?1 AND u.password = ?2", User.class);
 		try {
 			return (User) query.setParameter(1, login).setParameter(2, MD5.crypt(password)).getSingleResult();
-		} catch (NoResultException e) {
+		} catch (Exception e) {
+			Model.printErr(e);
 			return null;
 		}
 		

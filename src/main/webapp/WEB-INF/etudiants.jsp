@@ -1,3 +1,5 @@
+<!-- Auteur Joris -->
+
 <!DOCTYPE html>
 <%@page import="fr.intech.s5.appusers.services.ConH"%>
 <%@page import="fr.intech.s5.appusers.models.IModel"%>
@@ -39,7 +41,7 @@
 								out.println("<td>"+t.getTelPortable()+"</td>");
 								out.println("<td>"+t.getTelFix()+"</td>");
 								out.println("<td>"+u.getLogin()+"</td>");
-								if(user != null && user.getLogin().equals("admin"))out.println("<td><form action=\"suppression\" method=\"POST\"><input type=\"text\" hidden name = \"id\" value=\""+u.getId()+"\"/><button type=\"submit\" class=\"btn btn-danger btn-xs\" aria-label=\"Top Align\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span> </button></a></form></td>");
+								if(user != null && user.getLogin().equals("admin") && !u.getLogin().equals("admin"))out.println("<td><form action=\"suppression\" method=\"POST\" onsubmit=\"return validate()\"><input type=\"text\" hidden name = \"id\" value=\""+u.getId()+"\"/><button type=\"submit\" class=\"btn btn-danger btn-xs\" aria-label=\"Top Align\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span> </button></a></form></td>");
 								out.print("</tr>");
 							}
 						%>

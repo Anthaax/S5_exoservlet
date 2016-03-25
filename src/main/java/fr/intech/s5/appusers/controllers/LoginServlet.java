@@ -18,15 +18,21 @@ import fr.intech.s5.appusers.services.ConH;
 /**
  * Servlet implementation class LoginServlet
  */
+/**
+ * 
+ * @author Joris
+ *
+ */
 @WebServlet(name="LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private IModel model;
+	private final transient IModel model;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public LoginServlet() {
         super();
+        model = ConH.getModel();
     }
 
 	/**
@@ -51,8 +57,6 @@ public class LoginServlet extends HttpServlet {
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-    	model = ConH.getModel();
-    	
 		String pseudo = request.getParameter("pseudo");
 		String password = request.getParameter("password");
 		

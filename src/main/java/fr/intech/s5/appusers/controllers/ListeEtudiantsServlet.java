@@ -16,16 +16,21 @@ import fr.intech.s5.appusers.services.ConH;
 /**
  * Servlet implementation class InscriptionServlet
  */
+/**
+ * 
+ * @author Joris
+ *
+ */
 @WebServlet(name="ListeEtudiantsServlet", urlPatterns = "/etudiants")
 public class ListeEtudiantsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private IModel model;
+	private final transient IModel model;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ListeEtudiantsServlet() {
         super();
-       
+        model = ConH.getModel();
     }
 
 	/**
@@ -34,8 +39,6 @@ public class ListeEtudiantsServlet extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-    	model = ConH.getModel();
-    	
     	Collection<User> users = model.selectAllUser();
     	request.setAttribute("users", users);
     	

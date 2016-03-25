@@ -1,3 +1,5 @@
+<!-- Auteur Joris -->
+
 <%@page import="fr.intech.s5.appusers.beans.Telephone"%>
 <%@page import="fr.intech.s5.appusers.beans.User"%>
 <%User user = (User)request.getSession().getAttribute("usersession");%>

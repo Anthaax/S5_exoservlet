@@ -12,19 +12,26 @@ import fr.intech.s5.appusers.beans.User;
 import fr.intech.s5.appusers.models.IModel;
 import fr.intech.s5.appusers.models.Model;
 import fr.intech.s5.appusers.services.ConH;
+import fr.intech.s5.appusers.services.Servlet;
 
 /**
  * Servlet implementation class AuthServlet
  */
+/**
+ * 
+ * @author Joris
+ *
+ */
 @WebServlet(name="UpdateServlet", urlPatterns = "/update")
 public class UpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private IModel model;
+	private final transient IModel model;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public UpdateServlet() {
         super();
+        model = ConH.getModel();
     }
 
 	/**
@@ -32,12 +39,7 @@ public class UpdateServlet extends HttpServlet {
 	 */
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	try {
-    		request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-    			
-		} catch (Exception e) {
-			Model.printErr(e);
-		}
+    	Servlet.redirectTo(request, response, "login.jsp");
 	}
 
 	/**
@@ -45,8 +47,7 @@ public class UpdateServlet extends HttpServlet {
 	 */
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	model = ConH.getModel();
-      	 
+
 		String nom = request.getParameter("nom");
 		String prenom = request.getParameter("prenom");
 		String email = request.getParameter("email");

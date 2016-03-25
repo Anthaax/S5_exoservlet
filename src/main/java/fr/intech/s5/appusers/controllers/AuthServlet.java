@@ -7,10 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import fr.intech.s5.appusers.beans.User;
-import fr.intech.s5.appusers.models.IModel;
 import fr.intech.s5.appusers.models.Model;
-import fr.intech.s5.appusers.services.ConH;
-
+import fr.intech.s5.appusers.services.Servlet;
 /**
  * Servlet implementation class AuthServlet
  */
@@ -31,17 +29,7 @@ public class AuthServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = (User)request.getSession().getAttribute("usersession");
 		
-		try {
-			if(user == null)
-			{
-				request.setAttribute("message", "");
-				request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-			}
-			else
-				request.getRequestDispatcher("/WEB-INF/auth.jsp").forward(request, response);
-		} catch (Exception e) {
-			Model.printErr(e);
-		}
+		Servlet.checkAndRedirect(request, response, user, "auth.jsp");
 		
 	}
 
